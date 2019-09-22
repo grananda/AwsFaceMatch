@@ -17,4 +17,5 @@ jobs:
         run: composer cs:check
 
       - name: Laravel PHPUnit
-        uses: nathanheffley/laravel-phpunit-action@v0.1.0
+        run: composer test
+
