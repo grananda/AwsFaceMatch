@@ -1,0 +1,14 @@
+{
+    "name": "grananda/laravel-facematch",
+    "description": "AWS facematch package for Laravel",
+    "type": "package",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Julio Fernandez",
+            "email": "jfernandez74@bmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
