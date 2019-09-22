@@ -6,12 +6,27 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+      - uses: actions/checkout@v1
+
+      - name: Use Node.js 12.x
+          uses: actions/setup-node@v1
+          with:
+            node-version: 12.x
+
+      - name: Install composer dependencies
+          run: composer install --prefer-dist
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Run Mix
+        run: npm run production
+
+      - name: PHP-CS-Fixer
+        run: composer cs:check
+
+      - name: Laravel PHPUnit
+        uses: nathanheffley/laravel-phpunit-action@v0.1.0
+
