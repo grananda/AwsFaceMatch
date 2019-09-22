@@ -6,12 +6,19 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-    
+
     steps:
-    - uses: actions/checkout@v1
-    - name: Run a one-line script
-      run: echo Hello, world!
-    - name: Run a multi-line script
-      run: |
-        echo Add other actions to build,
-        echo test, and deploy your project.
+      - uses: actions/checkout@v1
+
+      - name: Install composer dependencies
+        run: composer install --prefer-dist
+
+      - name: PHPInsights
+        run: composer phpinsights
+
+      - name: PHP-CS-Fixer
+        run: composer cs:check
+
+      - name: Laravel PHPUnit
+        run: composer test
+
