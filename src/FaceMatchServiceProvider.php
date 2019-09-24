@@ -13,9 +13,6 @@ class FaceMatchServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__.'/config/facematch.php.php' => config_path('facematch.php'),
-        ]);
     }
 
     /**

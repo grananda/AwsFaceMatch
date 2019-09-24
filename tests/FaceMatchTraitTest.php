@@ -1,15 +1,19 @@
 <?php
 
-namespace Grananda\AwsFaceMatch\Test;
+namespace Grananda\AwsFaceMatch\Tests;
 
-use PHPUnit\Framework\TestCase;
-
+/**
+ * Class FaceMatchTraitTest.
+ *
+ * @package Grananda\AwsFaceMatch\Test
+ */
 class FaceMatchTraitTest extends TestCase
 {
     /** @test */
     public function event_is_triggered_on_model_save()
     {
         // Given
+//        $obj = new User();
 
         // When
 

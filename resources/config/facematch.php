@@ -1,10 +1,8 @@
 <?php
 
-use App\User;
-
 return [
     'facematch' => [
-        'model'      => User::class,
+        'model'      => 'Model\\User',
         'identifier' => 'uuid',
         'media'      => 'image',
         'aws'        => [
