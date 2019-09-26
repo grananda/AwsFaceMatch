@@ -2,6 +2,7 @@
 
 namespace Grananda\AwsFaceMatch\Tests;
 
+use Faker\Generator;
 use Mockery;
 use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Application;
@@ -16,6 +17,13 @@ use Grananda\AwsFaceMatch\FaceMatchServiceProvider;
 abstract class TestCase extends Orchestra
 {
     /**
+     * The Faker Generator instance.
+     *
+     * @var \Faker\Generator
+     */
+    protected $faker;
+
+    /**
      * Setup the test environment.
      *
      * @return void
@@ -24,6 +32,8 @@ abstract class TestCase extends Orchestra
     {
         parent::setUp();
 
+        $this->faker = app(Generator::class);
+
         $this->artisan('migrate', ['--database' => 'testbench']);
 
         $this->beforeApplicationDestroyed(function () {
@@ -31,6 +41,13 @@ abstract class TestCase extends Orchestra
         });
     }
 
+    /**
+     * Define environment setup.
+     *
+     * @param  \Illuminate\Foundation\Application  $app
+     *
+     * @return void
+     */
     protected function getEnvironmentSetUp($app)
     {
         // set up database configuration
@@ -45,7 +62,7 @@ abstract class TestCase extends Orchestra
     /**
      * Get AwsFaceMatch package providers.
      *
-     * @param Application $app
+     * @param  Application  $app
      *
      * @return array
      */
@@ -55,21 +72,5 @@ abstract class TestCase extends Orchestra
             FaceMatchServiceProvider::class,
             TestServiceProvider::class,
         ];
-    }
-
-    /**
-     * Mock the event dispatcher so all events are silenced and collected.
-     *
-     * @return TestCase
-     */
-    protected function withoutEvents()
-    {
-        $mock = Mockery::mock(Dispatcher::class);
-
-        $mock->shouldReceive('fire', 'until');
-
-        $this->app->instance('events', $mock);
-
-        return $this;
     }
 }
