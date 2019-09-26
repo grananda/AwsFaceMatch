@@ -27,7 +27,5 @@ class FaceMatchTraitTest extends TestCase
 
         // Then
         $this->assertTrue(true);
-
-        Bus::eventWasTrigerred(EntityImageWasUploaded::class);
     }
 }
