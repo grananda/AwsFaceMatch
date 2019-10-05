@@ -1,0 +1,19 @@
+{
+    "StatusCode": 200,
+    "@metadata": {
+        "statusCode": 200,
+        "effectiveUri": "https:\/\/rekognition.eu-central-1.amazonaws.com",
+        "headers": {
+            "content-type": "application\/x-amz-json-1.1",
+            "date": "Sat, 05 Oct 2019 20:34:44 GMT",
+            "x-amzn-requestid": "62aff7a9-1f17-4f9a-b12c-5ecff3c4ef41",
+            "content-length": "18",
+            "connection": "keep-alive"
+        },
+        "transferStats": {
+            "http": [
+                []
+            ]
+        }
+    }
+}

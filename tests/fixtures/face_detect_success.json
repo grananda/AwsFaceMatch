@@ -1,0 +1,65 @@
+{
+    "FaceDetails": [
+        {
+            "BoundingBox": {
+                "Width": 0.27439871430397034,
+                "Height": 0.5278255343437195,
+                "Left": 0.353305459022522,
+                "Top": 0.11314567178487778
+            },
+            "Landmarks": [
+                {
+                    "Type": "eyeLeft",
+                    "X": 0.40944385528564453,
+                    "Y": 0.350204735994339
+                },
+                {
+                    "Type": "eyeRight",
+                    "X": 0.5364330410957336,
+                    "Y": 0.3212514817714691
+                },
+                {
+                    "Type": "mouthLeft",
+                    "X": 0.4404858946800232,
+                    "Y": 0.5198811292648315
+                },
+                {
+                    "Type": "mouthRight",
+                    "X": 0.5453051924705505,
+                    "Y": 0.49557730555534363
+                },
+                {
+                    "Type": "nose",
+                    "X": 0.478403240442276,
+                    "Y": 0.40954750776290894
+                }
+            ],
+            "Pose": {
+                "Roll": -11.486763954162598,
+                "Yaw": -4.743646144866943,
+                "Pitch": 10.171745300292969
+            },
+            "Quality": {
+                "Brightness": 48.97480392456055,
+                "Sharpness": 86.86019134521484
+            },
+            "Confidence": 100
+        }
+    ],
+    "@metadata": {
+        "statusCode": 200,
+        "effectiveUri": "https:\/\/rekognition.eu-central-1.amazonaws.com",
+        "headers": {
+            "content-type": "application\/x-amz-json-1.1",
+            "date": "Sat, 05 Oct 2019 19:12:00 GMT",
+            "x-amzn-requestid": "bc06e11e-ad30-415e-8370-510b79fe960a",
+            "content-length": "665",
+            "connection": "keep-alive"
+        },
+        "transferStats": {
+            "http": [
+                []
+            ]
+        }
+    }
+}

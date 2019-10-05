@@ -1,0 +1,20 @@
+{
+    "CollectionIds": [],
+    "FaceModelVersions": [],
+    "@metadata": {
+        "statusCode": 200,
+        "effectiveUri": "https:\/\/rekognition.eu-central-1.amazonaws.com",
+        "headers": {
+            "content-type": "application\/x-amz-json-1.1",
+            "date": "Sat, 05 Oct 2019 20:43:12 GMT",
+            "x-amzn-requestid": "9bd718aa-c709-4cd8-9506-351011c91ccd",
+            "content-length": "43",
+            "connection": "keep-alive"
+        },
+        "transferStats": {
+            "http": [
+                []
+            ]
+        }
+    }
+}

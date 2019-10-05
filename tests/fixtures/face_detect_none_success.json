@@ -1,0 +1,19 @@
+{
+    "FaceDetails": [],
+    "@metadata": {
+        "statusCode": 200,
+        "effectiveUri": "https:\/\/rekognition.eu-central-1.amazonaws.com",
+        "headers": {
+            "content-type": "application\/x-amz-json-1.1",
+            "date": "Sat, 05 Oct 2019 19:32:34 GMT",
+            "x-amzn-requestid": "2d382e41-8b74-451f-a4d1-5a6865828a1a",
+            "content-length": "18",
+            "connection": "keep-alive"
+        },
+        "transferStats": {
+            "http": [
+                []
+            ]
+        }
+    }
+}
