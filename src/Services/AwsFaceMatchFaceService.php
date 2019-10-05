@@ -14,9 +14,9 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
     /**
      * Stores binary image pattern data into a collection.
      *
-     * @param string $collection
-     * @param string $subjectId
-     * @param string $file
+     * @param  string  $collection
+     * @param  string  $subjectId
+     * @param  string  $file
      *
      * @return \Aws\Result|bool
      */
@@ -24,7 +24,7 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
     {
         if ($this->hasSingleFace($file)) {
             /** @var string $file */
-            $file = File::get($file);
+            $file = $this->readFile($file);
 
             return $this->client->indexFaces(
                 [
@@ -34,8 +34,8 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
                     'Image'               => [
                         'Bytes' => $file,
                     ],
-                    'MaxFaces'      => self::MAXIMUM_FACES_TO_PROCESS,
-                    'QualityFilter' => self::IMAGE_FILTER_PROCESSING_LEVEL,
+                    'MaxFaces'            => self::MAXIMUM_FACES_TO_PROCESS,
+                    'QualityFilter'       => self::IMAGE_FILTER_PROCESSING_LEVEL,
                 ]
             );
         }
@@ -46,15 +46,15 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
     /**
      * Finds indexed matching face id from unknown image.
      *
-     * @param string $collection
-     * @param string $file
+     * @param  string  $collection
+     * @param  string  $file
      *
      * @return Result
      */
     public function matchFace(string $collection, string $file)
     {
         /** @var string $file */
-        $file = File::get($file);
+        $file = $this->readFile($file);
 
         return $this->client->searchFacesByImage(
             [
@@ -63,7 +63,7 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
                 'Image'              => [
                     'Bytes' => $file,
                 ],
-                'MaxFaces' => self::MAX_RETURNED_MATCHING_FACES,
+                'MaxFaces'           => self::MAX_RETURNED_MATCHING_FACES,
             ]
         );
     }
@@ -71,14 +71,14 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
     /**
      * Detects if an image contains a single face.
      *
-     * @param string $file
+     * @param  string  $file
      *
      * @return bool
      */
     private function hasSingleFace(string $file)
     {
         /** @var string $file */
-        $file = File::get($file);
+        $file = $this->readFile($file);
 
         /** @var Result $faces */
         $faces = $this->client->detectFaces(
@@ -91,5 +91,16 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
         );
 
         return sizeof($faces->get('FaceDetails')) === 1 ? true : false;
+    }
+
+    /**
+     * Reads image file content.
+     *
+     * @param  string  $file
+     * @return false|string
+     */
+    private function readFile(string $file)
+    {
+        return file_get_contents($file);
     }
 }

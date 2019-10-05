@@ -1,7 +1,8 @@
 <?php
 
-namespace Grananda\AwsFaceMatch\Tests;
+namespace Grananda\AwsFaceMatch\Tests\Unit;
 
+use Grananda\AwsFaceMatch\Tests\TestCase;
 use Mockery;
 use Exception;
 use Aws\Result;
