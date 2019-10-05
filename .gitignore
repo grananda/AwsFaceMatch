@@ -3,4 +3,5 @@
 .phpunit.result.cache
 .php_cs.cache
 .build
+.env
 

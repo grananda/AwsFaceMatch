@@ -1,0 +1,22 @@
+{
+    "FaceCount": 2,
+    "FaceModelVersion": "4.0",
+    "CollectionARN": "arn:aws:rekognition:eu-central-1:718519895578:collection\/Test",
+    "CreationTimestamp": "2019-10-05T21:03:37+00:00",
+    "@metadata": {
+        "statusCode": 200,
+        "effectiveUri": "https:\/\/rekognition.eu-central-1.amazonaws.com",
+        "headers": {
+            "content-type": "application\/x-amz-json-1.1",
+            "date": "Sat, 05 Oct 2019 21:13:08 GMT",
+            "x-amzn-requestid": "4abb97ec-1ddf-42e1-9d2f-d31f6367b5ab",
+            "content-length": "157",
+            "connection": "keep-alive"
+        },
+        "transferStats": {
+            "http": [
+                []
+            ]
+        }
+    }
+}

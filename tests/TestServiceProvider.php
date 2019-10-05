@@ -19,7 +19,6 @@ class TestServiceProvider extends BaseServiceProvider
     protected $defer = false;
 
     protected $listen = [
-
     ];
 
     /**

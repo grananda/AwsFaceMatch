@@ -3,8 +3,6 @@
 namespace Grananda\AwsFaceMatch\Tests;
 
 use Faker\Generator;
-use Mockery;
-use Illuminate\Events\Dispatcher;
 use Illuminate\Foundation\Application;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Grananda\AwsFaceMatch\FaceMatchServiceProvider;
@@ -44,7 +42,7 @@ abstract class TestCase extends Orchestra
     /**
      * Define environment setup.
      *
-     * @param  \Illuminate\Foundation\Application  $app
+     * @param \Illuminate\Foundation\Application $app
      *
      * @return void
      */
@@ -57,12 +55,16 @@ abstract class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix'   => '',
         ]);
+        $app['config']->set('facematch.aws.key', 'AKIA2OSY7QYNFU2KZN5K');
+        $app['config']->set('facematch.aws.secret', '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');
+        $app['config']->set('facematch.aws.region', 'eu-central-1');
+        $app['config']->set('facematch.aws.version', 'latest');
     }
 
     /**
      * Get AwsFaceMatch package providers.
      *
-     * @param  Application  $app
+     * @param Application $app
      *
      * @return array
      */
@@ -72,5 +74,28 @@ abstract class TestCase extends Orchestra
             FaceMatchServiceProvider::class,
             TestServiceProvider::class,
         ];
+    }
+
+    /**
+     * Reads the contents of the given test fixture.
+     *
+     * @param string $name
+     * @param bool   $json
+     *
+     * @throws \Exception
+     *
+     * @return array
+     */
+    protected function loadFixture(string $name, $json = true)
+    {
+        $file = $json ? __DIR__."/fixtures/{$name}.json" : __DIR__."/fixtures/{$name}";
+
+        if (file_exists($file)) {
+            $content = file_get_contents($file);
+
+            return $json ? json_decode($content, true) : $content;
+        }
+
+        throw new \Exception('Fixture was not found!');
     }
 }
