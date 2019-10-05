@@ -34,7 +34,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var string $file */
-        $file = 'assets/image1a.jpg';
+        $file = __DIR__.'/assets/image1a.jpg';
 
         /** @var Result $resultCreate */
         $resultDetect = new Result($this->loadFixture('face_detect_success'));
@@ -103,7 +103,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var string $file */
-        $file = 'assets/image3a.jpg';
+        $file = __DIR__.'/assets/image3a.jpg';
 
         /** @var Result $resultCreate */
         $resultDetect = new Result($this->loadFixture('face_detect_multiple_success'));
@@ -156,7 +156,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var string $file */
-        $file = 'assets/image4a.jpg';
+        $file = __DIR__.'/assets/image4a.jpg';
 
         /** @var Result $resultCreate */
         $resultDetect = new Result($this->loadFixture('face_detect_none_success'));
@@ -209,7 +209,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var string $file */
-        $file = 'assets/image1a.jpg';
+        $file = __DIR__.'/assets/image1a.jpg';
 
         /** @var Result $resultCreate */
         $resultMatch = new Result($this->loadFixture('face_match_success'));
@@ -262,7 +262,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var string $file */
-        $file = 'assets/image1a.jpg';
+        $file = __DIR__.'/assets/image1a.jpg';
 
         /** @var Result $resultCreate */
         $resultMatch = new Result($this->loadFixture('face_match_fail'));
