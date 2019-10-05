@@ -4,7 +4,7 @@ namespace Grananda\AwsFaceMatch\Services;
 
 use Aws\Result;
 
-class AwsFaceMatchCollectionService extends AwsFaceMatchService
+final class AwsFaceMatchCollectionService extends AwsFaceMatchService
 {
     /**
      * Initializes a collection when not available.

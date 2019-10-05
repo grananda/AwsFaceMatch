@@ -5,7 +5,7 @@ namespace Grananda\AwsFaceMatch\Services;
 use Aws\Result;
 use Illuminate\Support\Facades\File;
 
-class AwsFaceMatchFaceService extends AwsFaceMatchService
+final class AwsFaceMatchFaceService extends AwsFaceMatchService
 {
     const FACE_MATCH_THRESHOLD = 80;
 
