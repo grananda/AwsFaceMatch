@@ -2,11 +2,11 @@
 
 namespace Grananda\AwsFaceMatch\Tests\Unit;
 
-use Grananda\AwsFaceMatch\Tests\TestCase;
 use Mockery;
 use Exception;
 use Aws\Result;
 use Aws\Rekognition\RekognitionClient;
+use Grananda\AwsFaceMatch\Tests\TestCase;
 use Grananda\AwsFaceMatch\Services\AwsRekognitionClientFactory;
 use Grananda\AwsFaceMatch\Services\AwsFaceMatchCollectionService;
 

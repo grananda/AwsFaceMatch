@@ -2,8 +2,8 @@
 
 namespace Grananda\AwsFaceMatch\Tests\Unit;
 
-use Grananda\AwsFaceMatch\Tests\TestCase;
 use Illuminate\Support\Facades\Bus;
+use Grananda\AwsFaceMatch\Tests\TestCase;
 use Grananda\AwsFaceMatch\Tests\Models\Entity;
 use Grananda\AwsFaceMatch\Jobs\EntityImageWasStored;
 

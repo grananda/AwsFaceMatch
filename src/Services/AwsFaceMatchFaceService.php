@@ -14,9 +14,9 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
     /**
      * Stores binary image pattern data into a collection.
      *
-     * @param  string  $collection
-     * @param  string  $subjectId
-     * @param  string  $file
+     * @param string $collection
+     * @param string $subjectId
+     * @param string $file
      *
      * @return \Aws\Result|bool
      */
@@ -34,8 +34,8 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
                     'Image'               => [
                         'Bytes' => $file,
                     ],
-                    'MaxFaces'            => self::MAXIMUM_FACES_TO_PROCESS,
-                    'QualityFilter'       => self::IMAGE_FILTER_PROCESSING_LEVEL,
+                    'MaxFaces'      => self::MAXIMUM_FACES_TO_PROCESS,
+                    'QualityFilter' => self::IMAGE_FILTER_PROCESSING_LEVEL,
                 ]
             );
         }
@@ -46,8 +46,8 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
     /**
      * Finds indexed matching face id from unknown image.
      *
-     * @param  string  $collection
-     * @param  string  $file
+     * @param string $collection
+     * @param string $file
      *
      * @return Result
      */
@@ -63,7 +63,7 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
                 'Image'              => [
                     'Bytes' => $file,
                 ],
-                'MaxFaces'           => self::MAX_RETURNED_MATCHING_FACES,
+                'MaxFaces' => self::MAX_RETURNED_MATCHING_FACES,
             ]
         );
     }
@@ -71,7 +71,7 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
     /**
      * Detects if an image contains a single face.
      *
-     * @param  string  $file
+     * @param string $file
      *
      * @return bool
      */
@@ -96,7 +96,8 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
     /**
      * Reads image file content.
      *
-     * @param  string  $file
+     * @param string $file
+     *
      * @return false|string
      */
     private function readFile(string $file)
