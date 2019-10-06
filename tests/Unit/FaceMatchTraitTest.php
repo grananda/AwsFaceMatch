@@ -41,7 +41,7 @@ class FaceMatchTraitTest extends TestCase
     public function job_is_not_dispatched_on_model_saved_without_image_change()
     {
         // Given
-        Bus::fake(˘StoreEntityFaceImage::class);
+        Bus::fake(StoreEntityFaceImage::class);
 
         /** @var Entity $obj */
         $obj = Entity::make([
