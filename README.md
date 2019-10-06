@@ -47,8 +47,8 @@ class Employee extends Model
 
   protected $fillable = [
     'name',
-	'uuid',
-	'media_url',
+    'uuid',
+    'media_url',
 ];  
 
   public function recognizable() { 
