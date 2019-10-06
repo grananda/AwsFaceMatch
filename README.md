@@ -70,7 +70,7 @@ There are a few major things to add to the models:
 	 - **Media Field**: determines wich field in the model database will the avatar image url be stored.
 	 - **Identifier**: which unique field in the model database will be use to identify the record once a face match occur. It is recommended to use a **UUID** field for such purpose.
 
-It is important to mention that both `mediaField` and `identifier` fields should be included in the model `fillable` array.
+It is important to mention that both `mediaField` and `identifier` fields should be included in the model `fillable` array as well as in your database migrations if necessary.
 
 You can add the face match functonality to as many models as you may wish as far as the do not share the same collection.
 
