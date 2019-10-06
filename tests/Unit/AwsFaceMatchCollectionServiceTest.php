@@ -14,9 +14,9 @@ use Grananda\AwsFaceMatch\Services\AwsFaceMatchCollectionService;
  * Class AwsFaceMatchServiceTest.
  * https://docs.aws.amazon.com/aws-sdk-php/v3/api/class-Aws.Rekognition.RekognitionClient.html.
  *
- * @group unit
- *
  * @package Grananda\AwsFaceMatch\Tests
+ *
+ * @group unit
  * @covers \Grananda\AwsFaceMatch\Services\AwsFaceMatchService
  */
 class AwsFaceMatchCollectionServiceTest extends TestCase
