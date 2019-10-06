@@ -69,7 +69,7 @@ class StoreEntityFaceImageTest extends TestCase
                 $mock->shouldReceive('createCollection')
                     ->with(['CollectionId' => $collectionName])
                     ->andReturn($resultCreate)
-                    ->times(1);
+                    ->times(1)
                 ;
 
                 $mock->shouldReceive('listCollections')
