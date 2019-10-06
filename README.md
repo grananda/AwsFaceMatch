@@ -1,6 +1,3 @@
-Welcome file
-Welcome file
-
 # AWS Laravel Face Match  (BETA)
 This component integrates face recognition to conventional Laravel models such as users with avatar images. This package compares a single face image against an indexed collection of images and returns a matching model with a precision greater than 80%.
 
