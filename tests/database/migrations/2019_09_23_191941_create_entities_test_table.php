@@ -15,7 +15,9 @@ class CreateEntitiesTestTable extends Migration
     {
         Schema::create('entities', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->string('name');
+            $table->uuid('uuid')->nullable();
+            $table->string('name')->nullable();
+            $table->string('media_url')->nullable();
         });
     }
 

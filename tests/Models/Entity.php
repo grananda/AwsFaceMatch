@@ -23,5 +23,18 @@ class Entity extends Model
      */
     protected $fillable = [
         'name',
+        'uuid',
+        'media_url',
     ];
+
+    /**
+     * @return array
+     */
+    public function recognizable()
+    {
+        return [
+            'mediaField' => 'media_url',
+            'identifier' => 'uuid',
+        ];
+    }
 }
