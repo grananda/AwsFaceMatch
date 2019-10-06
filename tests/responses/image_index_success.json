@@ -1,0 +1,81 @@
+{
+    "FaceRecords": [
+        {
+            "Face": {
+                "FaceId": "a5393e97-c88b-4528-b9e5-fc0b6340db7d",
+                "BoundingBox": {
+                    "Width": 0.27439871430397034,
+                    "Height": 0.5278255343437195,
+                    "Left": 0.353305459022522,
+                    "Top": 0.11314567178487778
+                },
+                "ImageId": "252210ef-8e2a-34c4-ab2b-1862c2af20ed",
+                "ExternalImageId": "e7379469-97b4-397a-ba81-ba5d3ead35bc",
+                "Confidence": 100
+            },
+            "FaceDetail": {
+                "BoundingBox": {
+                    "Width": 0.27439871430397034,
+                    "Height": 0.5278255343437195,
+                    "Left": 0.353305459022522,
+                    "Top": 0.11314567178487778
+                },
+                "Landmarks": [
+                    {
+                        "Type": "eyeLeft",
+                        "X": 0.40944385528564453,
+                        "Y": 0.350204735994339
+                    },
+                    {
+                        "Type": "eyeRight",
+                        "X": 0.5364330410957336,
+                        "Y": 0.3212514817714691
+                    },
+                    {
+                        "Type": "mouthLeft",
+                        "X": 0.4404858946800232,
+                        "Y": 0.5198811292648315
+                    },
+                    {
+                        "Type": "mouthRight",
+                        "X": 0.5453051924705505,
+                        "Y": 0.49557730555534363
+                    },
+                    {
+                        "Type": "nose",
+                        "X": 0.478403240442276,
+                        "Y": 0.40954750776290894
+                    }
+                ],
+                "Pose": {
+                    "Roll": -11.486763954162598,
+                    "Yaw": -4.743646144866943,
+                    "Pitch": 10.171745300292969
+                },
+                "Quality": {
+                    "Brightness": 48.97480392456055,
+                    "Sharpness": 86.86019134521484
+                },
+                "Confidence": 100
+            }
+        }
+    ],
+    "FaceModelVersion": "4.0",
+    "UnindexedFaces": [],
+    "@metadata": {
+        "statusCode": 200,
+        "effectiveUri": "https:\/\/rekognition.eu-central-1.amazonaws.com",
+        "headers": {
+            "content-type": "application\/x-amz-json-1.1",
+            "date": "Sat, 05 Oct 2019 18:33:30 GMT",
+            "x-amzn-requestid": "ea2bdfea-29e2-4027-aec4-b9ff0bb79ee3",
+            "content-length": "1030",
+            "connection": "keep-alive"
+        },
+        "transferStats": {
+            "http": [
+                []
+            ]
+        }
+    }
+}

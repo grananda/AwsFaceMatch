@@ -1,0 +1,27 @@
+{
+    "SearchedFaceBoundingBox": {
+        "Width": 0.28802216053009033,
+        "Height": 0.5523070693016052,
+        "Left": 0.3619687259197235,
+        "Top": 0.24435843527317047
+    },
+    "SearchedFaceConfidence": 100,
+    "FaceMatches": [],
+    "FaceModelVersion": "4.0",
+    "@metadata": {
+        "statusCode": 200,
+        "effectiveUri": "https:\/\/rekognition.eu-central-1.amazonaws.com",
+        "headers": {
+            "content-type": "application\/x-amz-json-1.1",
+            "date": "Sat, 05 Oct 2019 21:07:53 GMT",
+            "x-amzn-requestid": "a57be05c-2934-4cde-a10d-f1d7a4f4d3e2",
+            "content-length": "210",
+            "connection": "keep-alive"
+        },
+        "transferStats": {
+            "http": [
+                []
+            ]
+        }
+    }
+}

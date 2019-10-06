@@ -1,31 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <phpunit backupGlobals="false"
          backupStaticAttributes="false"
-         beStrictAboutTestsThatDoNotTestAnything="true"
-         beStrictAboutOutputDuringTests="true"
          bootstrap="vendor/autoload.php"
          colors="true"
          convertErrorsToExceptions="true"
          convertNoticesToExceptions="true"
          convertWarningsToExceptions="true"
-         failOnRisky="true"
-         failOnWarning="true"
+         printerClass="LimeDeck\Testing\Printer"
          processIsolation="false"
-         stopOnError="false"
          stopOnFailure="false"
+         failOnWarning="true"
+         stopOnError="false"
+         beStrictAboutTestsThatDoNotTestAnything="true"
+         beStrictAboutOutputDuringTests="true"
+         failOnRisky="true"
          verbose="true"
 >
     <testsuites>
-        <testsuite name="Grananda FaceMatch Package Test Suite">
+        <testsuite name="Grananda AwsFaceMatch Package Test Suite">
             <directory suffix="Test.php">./tests/</directory>
         </testsuite>
     </testsuites>
     <filter>
         <whitelist>
-            <directory suffix=".php">./src/</directory>
-            <exclude>
-                <file>./src/FaceMatchServiceProvider.php</file>
-            </exclude>
+            <directory suffix=".php">src/</directory>
         </whitelist>
     </filter>
     <logging>

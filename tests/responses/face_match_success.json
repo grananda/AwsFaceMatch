@@ -1,0 +1,58 @@
+{
+    "SearchedFaceBoundingBox": {
+        "Width": 0.23968181014060974,
+        "Height": 0.4388720989227295,
+        "Left": 0.4571584463119507,
+        "Top": 0.11880503594875336
+    },
+    "SearchedFaceConfidence": 100,
+    "FaceMatches": [
+        {
+            "Similarity": 99.99999237060547,
+            "Face": {
+                "FaceId": "730069bc-9a73-441a-b2e0-199d793e4f30",
+                "BoundingBox": {
+                    "Width": 0.23968200385570526,
+                    "Height": 0.43887200951576233,
+                    "Left": 0.45715799927711487,
+                    "Top": 0.11880499869585037
+                },
+                "ImageId": "054cf246-e0c8-37c1-add0-05241590e219",
+                "ExternalImageId": "e7379469-97b4-397a-ba81-ba5d3ead35bc",
+                "Confidence": 100
+            }
+        },
+        {
+            "Similarity": 99.50249481201172,
+            "Face": {
+                "FaceId": "10524b1a-582e-4550-9e9c-307a6b962f5b",
+                "BoundingBox": {
+                    "Width": 0.2743990123271942,
+                    "Height": 0.5278260111808777,
+                    "Left": 0.35330501198768616,
+                    "Top": 0.11314599961042404
+                },
+                "ImageId": "6be6a069-3a7e-3f94-85a1-ca863072c30e",
+                "ExternalImageId": "e7379469-97b4-397a-ba81-ba5d3ead35bc",
+                "Confidence": 100
+            }
+        }
+    ],
+    "FaceModelVersion": "4.0",
+    "@metadata": {
+        "statusCode": 200,
+        "effectiveUri": "https:\/\/rekognition.eu-central-1.amazonaws.com",
+        "headers": {
+            "content-type": "application\/x-amz-json-1.1",
+            "date": "Sat, 05 Oct 2019 21:07:52 GMT",
+            "x-amzn-requestid": "1e35d9e0-4cf9-4ecb-b7ac-b6965a65f71c",
+            "content-length": "825",
+            "connection": "keep-alive"
+        },
+        "transferStats": {
+            "http": [
+                []
+            ]
+        }
+    }
+}

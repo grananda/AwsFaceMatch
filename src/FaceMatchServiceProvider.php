@@ -2,7 +2,9 @@
 
 namespace Grananda\AwsFaceMatch;
 
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
+use Grananda\AwsFaceMatch\Services\AwsFaceMatchFaceService;
 
 class FaceMatchServiceProvider extends ServiceProvider
 {
@@ -13,9 +15,6 @@ class FaceMatchServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->publishes([
-            __DIR__.'/config/facematch.php.php' => config_path('facematch.php'),
-        ]);
     }
 
     /**
@@ -25,5 +24,8 @@ class FaceMatchServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        App::bind('FaceMatch', function () {
+            return new AwsFaceMatchFaceService();
+        });
     }
 }
