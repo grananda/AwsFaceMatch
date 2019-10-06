@@ -71,8 +71,8 @@ class FaceMatchTraitTest extends TestCase
 
         /** @var Entity $model */
         $model = Entity::make([
-            'uuid'      => $this->faker->uuid,
-            'name'      => $this->faker->name,
+            'uuid' => $this->faker->uuid,
+            'name' => $this->faker->name,
         ]);
 
         // When
