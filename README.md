@@ -54,8 +54,8 @@ class Employee extends Model
   public function recognizable() { 
     return [
       'collection' => 'emloyees',
-	  'mediaField' => 'media_url', 
-	  'identifier' => 'uuid', 
+      'mediaField' => 'media_url', 
+      'identifier' => 'uuid', 
     ]; 
   }
 }  
