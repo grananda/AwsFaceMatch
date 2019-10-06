@@ -56,8 +56,6 @@ abstract class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix'   => '',
         ]);
-        $app['config']->set('facematch.aws.key', 'AKIA2OSY7QYNFU2KZN5K');
-        $app['config']->set('facematch.aws.secret', '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');
         $app['config']->set('facematch.aws.region', 'eu-central-1');
         $app['config']->set('facematch.aws.version', 'latest');
     }

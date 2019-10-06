@@ -4,7 +4,9 @@ namespace Grananda\AwsFaceMatch;
 
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\ServiceProvider;
+use Laravel\Lumen\Application as LumenApplication;
 use Grananda\AwsFaceMatch\Services\AwsFaceMatchFaceService;
+use Illuminate\Foundation\Application as LaravelApplication;
 
 class FaceMatchServiceProvider extends ServiceProvider
 {
@@ -15,6 +17,7 @@ class FaceMatchServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->setUpConfig();
     }
 
     /**
@@ -27,5 +30,18 @@ class FaceMatchServiceProvider extends ServiceProvider
         App::bind('FaceMatch', function () {
             return new AwsFaceMatchFaceService();
         });
+    }
+
+    protected function setUpConfig()
+    {
+        $source = dirname(__DIR__).'/resources/config/facematch.php';
+
+        if ($this->app instanceof LaravelApplication) {
+            $this->publishes([$source => config_path('facematch.php')], 'config');
+        } elseif ($this->app instanceof LumenApplication) {
+            $this->app->configure('facematch');
+        }
+
+        $this->mergeConfigFrom($source, 'facematch');
     }
 }
