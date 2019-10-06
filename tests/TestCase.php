@@ -4,6 +4,7 @@ namespace Grananda\AwsFaceMatch\Tests;
 
 use Faker\Generator;
 use Illuminate\Foundation\Application;
+use Grananda\AwsFaceMatch\Facades\FaceMatch;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Grananda\AwsFaceMatch\FaceMatchServiceProvider;
 
@@ -76,8 +77,15 @@ abstract class TestCase extends Orchestra
         ];
     }
 
+    protected function getPackageAliases($app)
+    {
+        return [
+            'FaceMatch' => FaceMatch::class,
+        ];
+    }
+
     /**
-     * Reads the contents of the given test fixture.
+     * Reads the contents of the given test response.
      *
      * @param string $name
      * @param bool   $json
@@ -86,9 +94,9 @@ abstract class TestCase extends Orchestra
      *
      * @return array
      */
-    protected function loadFixture(string $name, $json = true)
+    protected function loadResponse(string $name, $json = true)
     {
-        $file = $json ? __DIR__."/fixtures/{$name}.json" : __DIR__."/fixtures/{$name}";
+        $file = $json ? __DIR__."/responses/{$name}.json" : __DIR__."/responses/{$name}";
 
         if (file_exists($file)) {
             $content = file_get_contents($file);

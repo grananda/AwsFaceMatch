@@ -1,6 +1,6 @@
 <?php
 
-namespace Grananda\AwsFaceMatch\Tests\Unit;
+namespace Grananda\AwsFaceMatch\Tests\Unit\Jobs;
 
 use Mockery;
 use Aws\Result;
@@ -31,29 +31,29 @@ class StoreEntityFaceImageTest extends TestCase
         $model = Entity::make([
             'uuid'      => $this->faker->uuid,
             'name'      => $this->faker->name,
-            'media_url' => __DIR__.'/../assets/image1a.jpg',
+            'media_url' => __DIR__.'/../../assets/image1a.jpg',
         ]);
 
         /** @var string $collectionName */
         $collectionName = $model->getCollection();
 
         /** @var string $file */
-        $file = $model->getMediaFile();
+        $file = $model->getMediaFileValue();
 
         /** @var string $subjectId */
-        $subjectId = $model->getIdentifier();
+        $subjectId = $model->getIdentifierValue();
 
         /** @var Result $resultList */
-        $resultList = new Result($this->loadFixture('collection_list_success'));
+        $resultList = new Result($this->loadResponse('collection_list_success'));
 
         /** @var Result $resultCreate */
-        $resultCreate = new Result($this->loadFixture('collection_create_success'));
+        $resultCreate = new Result($this->loadResponse('collection_create_success'));
 
         /** @var Result $resultCreate */
-        $resultDetect = new Result($this->loadFixture('face_detect_success'));
+        $resultDetect = new Result($this->loadResponse('face_detect_success'));
 
         /** @var Result $resultList */
-        $resultIndex = new Result($this->loadFixture('image_index_success'));
+        $resultIndex = new Result($this->loadResponse('image_index_success'));
 
         /** @var Mockery $rekognitionClientMock */
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
@@ -117,8 +117,8 @@ class StoreEntityFaceImageTest extends TestCase
         // When
         StoreEntityFaceImage::dispatch(
             $model->getCollection(),
-            $model->getIdentifier(),
-            $model->getMediaFile()
+            $model->getIdentifierValue(),
+            $model->getMediaFileValue()
         );
 
         // Then

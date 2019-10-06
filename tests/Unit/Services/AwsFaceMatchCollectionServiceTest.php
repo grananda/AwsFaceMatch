@@ -1,6 +1,6 @@
 <?php
 
-namespace Grananda\AwsFaceMatch\Tests\Unit;
+namespace Grananda\AwsFaceMatch\Tests\Unit\Services;
 
 use Mockery;
 use Exception;
@@ -33,10 +33,10 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var Result $resultList */
-        $resultList = new Result($this->loadFixture('collection_list_success'));
+        $resultList = new Result($this->loadResponse('collection_list_success'));
 
         /** @var Result $resultCreate */
-        $resultCreate = new Result($this->loadFixture('collection_create_success'));
+        $resultCreate = new Result($this->loadResponse('collection_create_success'));
 
         /** @var Mockery $rekognitionClientMock */
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
@@ -75,10 +75,10 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
     {
         // Given
         /** @var Result $resultList */
-        $resultList = new Result($this->loadFixture('collection_list_success'));
+        $resultList = new Result($this->loadResponse('collection_list_success'));
 
         /** @var Result $resultCreate */
-        $resultDelete = new Result($this->loadFixture('collection_delete_success'));
+        $resultDelete = new Result($this->loadResponse('collection_delete_success'));
 
         /** @var Mockery $rekognitionClientMock */
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
@@ -117,10 +117,10 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
     {
         // Given
         /** @var Result $resultList */
-        $resultList = new Result($this->loadFixture('collection_list_none_success'));
+        $resultList = new Result($this->loadResponse('collection_list_none_success'));
 
         /** @var Result $resultCreate */
-        $resultDelete = new Result($this->loadFixture('collection_delete_success'));
+        $resultDelete = new Result($this->loadResponse('collection_delete_success'));
 
         /** @var Mockery $rekognitionClientMock */
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
@@ -161,7 +161,7 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var Result $resultCreate */
-        $resultDelete = new Result($this->loadFixture('collection_delete_success'));
+        $resultDelete = new Result($this->loadResponse('collection_delete_success'));
 
         /** @var Mockery $rekognitionClientMock */
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
@@ -204,7 +204,7 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var Result $resultCreate */
-        $resultDescription = new Result($this->loadFixture('collection_description_success'));
+        $resultDescription = new Result($this->loadResponse('collection_description_success'));
 
         /** @var Mockery $rekognitionClientMock */
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
@@ -247,7 +247,7 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var Result $resultCreate */
-        $resultDescription = new Result($this->loadFixture('collection_description_empty_success'));
+        $resultDescription = new Result($this->loadResponse('collection_description_empty_success'));
 
         /** @var Mockery $rekognitionClientMock */
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
