@@ -64,6 +64,25 @@ class FaceMatchTraitTest extends TestCase
     }
 
     /** @test */
+    public function job_is_not_dispatched_on_model_when_image_is_missing()
+    {
+        // Given
+        Bus::fake(StoreEntityFaceImage::class);
+
+        /** @var Entity $model */
+        $model = Entity::make([
+            'uuid'      => $this->faker->uuid,
+            'name'      => $this->faker->name,
+        ]);
+
+        // When
+        $model->save();
+
+        // Then
+        Bus::assertNotDispatched(StoreEntityFaceImage::class);
+    }
+
+    /** @test */
     public function a_proper_collection_name_is_returned_when_not_defined()
     {
         // Given
