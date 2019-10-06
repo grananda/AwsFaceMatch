@@ -1,6 +1,6 @@
 <?php
 
-namespace Grananda\AwsFaceMatch\Tests\Unit;
+namespace Grananda\AwsFaceMatch\Tests\Unit\Traits;
 
 use Illuminate\Support\Facades\Bus;
 use Grananda\AwsFaceMatch\Tests\TestCase;
@@ -27,7 +27,7 @@ class FaceMatchTraitTest extends TestCase
         $obj = Entity::make([
             'uuid'      => $this->faker->uuid,
             'name'      => $this->faker->name,
-            'media_url' => __DIR__.'/../assets/image1a.jpg',
+            'media_url' => __DIR__.'/../../assets/image1a.jpg',
         ]);
 
         // When
@@ -47,7 +47,7 @@ class FaceMatchTraitTest extends TestCase
         $obj = Entity::make([
             'uuid'      => $this->faker->uuid,
             'name'      => $this->faker->name,
-            'media_url' => __DIR__.'/../assets/image1a.jpg',
+            'media_url' => __DIR__.'/../../assets/image1a.jpg',
         ]);
         $obj->save();
 

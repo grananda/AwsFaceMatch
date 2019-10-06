@@ -34,13 +34,13 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var string $file */
-        $file = __DIR__.'/../assets/image1a.jpg';
+        $file = __DIR__.'/../../assets/image1a.jpg';
 
         /** @var Result $resultCreate */
-        $resultDetect = new Result($this->loadFixture('face_detect_success'));
+        $resultDetect = new Result($this->loadResponse('face_detect_success'));
 
         /** @var Result $resultList */
-        $resultIndex = new Result($this->loadFixture('image_index_success'));
+        $resultIndex = new Result($this->loadResponse('image_index_success'));
 
         /** @var string $subjectId */
         $subjectId = $resultIndex->get('FaceRecords')[0]['Face']['ExternalImageId'];
@@ -108,10 +108,10 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         $file = 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png';
 
         /** @var Result $resultCreate */
-        $resultDetect = new Result($this->loadFixture('face_detect_success'));
+        $resultDetect = new Result($this->loadResponse('face_detect_success'));
 
         /** @var Result $resultList */
-        $resultIndex = new Result($this->loadFixture('image_index_success'));
+        $resultIndex = new Result($this->loadResponse('image_index_success'));
 
         /** @var string $subjectId */
         $subjectId = $resultIndex->get('FaceRecords')[0]['Face']['ExternalImageId'];
@@ -174,13 +174,13 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var string $file */
-        $file = __DIR__.'/../assets/image3a.jpg';
+        $file = __DIR__.'/../../assets/image3a.jpg';
 
         /** @var Result $resultCreate */
-        $resultDetect = new Result($this->loadFixture('face_detect_multiple_success'));
+        $resultDetect = new Result($this->loadResponse('face_detect_multiple_success'));
 
         /** @var Result $resultList */
-        $resultIndex = new Result($this->loadFixture('image_index_success'));
+        $resultIndex = new Result($this->loadResponse('image_index_success'));
 
         /** @var string $subjectId */
         $subjectId = $resultIndex->get('FaceRecords')[0]['Face']['ExternalImageId'];
@@ -227,13 +227,13 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var string $file */
-        $file = __DIR__.'/../assets/image4a.jpg';
+        $file = __DIR__.'/../../assets/image4a.jpg';
 
         /** @var Result $resultCreate */
-        $resultDetect = new Result($this->loadFixture('face_detect_none_success'));
+        $resultDetect = new Result($this->loadResponse('face_detect_none_success'));
 
         /** @var Result $resultList */
-        $resultIndex = new Result($this->loadFixture('image_index_success'));
+        $resultIndex = new Result($this->loadResponse('image_index_success'));
 
         /** @var string $subjectId */
         $subjectId = $resultIndex->get('FaceRecords')[0]['Face']['ExternalImageId'];
@@ -280,10 +280,10 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var string $file */
-        $file = __DIR__.'/../assets/image1a.jpg';
+        $file = __DIR__.'/../../assets/image1a.jpg';
 
         /** @var Result $resultCreate */
-        $resultMatch = new Result($this->loadFixture('face_match_success'));
+        $resultMatch = new Result($this->loadResponse('face_match_success'));
 
         /** @var string $subjectId */
         $subjectId = $resultMatch->get('FaceMatches')[0]['Face']['ExternalImageId'];
@@ -333,10 +333,10 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var string $file */
-        $file = __DIR__.'/../assets/image1a.jpg';
+        $file = __DIR__.'/../../assets/image1a.jpg';
 
         /** @var Result $resultCreate */
-        $resultMatch = new Result($this->loadFixture('face_match_fail'));
+        $resultMatch = new Result($this->loadResponse('face_match_fail'));
 
         /** @var Mockery $rekognitionClientMock */
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
