@@ -2,6 +2,8 @@
 
 namespace Grananda\AwsFaceMatch\Traits;
 
+use Illuminate\Database\Eloquent\Model;
+use Grananda\AwsFaceMatch\Jobs\FindFaceMatch;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 
 trait FacialRecognition
@@ -15,7 +17,7 @@ trait FacialRecognition
                 StoreEntityFaceImage::dispatch(
                     $model->getCollection(),
                     $model->getIdentifier(),
-                    $model->getCollection()
+                    $model->getMediaFile()
                 );
             }
         });
@@ -73,5 +75,31 @@ trait FacialRecognition
     private function generateDefaultCollection()
     {
         return str_replace('\\', '-', get_class($this));
+    }
+
+    /**
+     * Finds model object from a given face image.
+     *
+     * @param string $file
+     *
+     * @return bool|Model
+     */
+    public static function faceMatch(string $file)
+    {
+        /** @var string $class */
+        $class = self::class;
+
+        /** @var FacialRecognition $entity */
+        $entity = new $class();
+
+        /** @var string $identifier */
+        $identifier = $entity->recognizable()['identifier'];
+
+        /** @var string $id */
+        if ($id = FindFaceMatch::dispatchNow($entity->getCollection(), $file)) {
+            return $entity::where($identifier, $id)->first();
+        }
+
+        return false;
     }
 }

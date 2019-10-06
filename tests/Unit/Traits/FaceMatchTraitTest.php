@@ -4,6 +4,7 @@ namespace Grananda\AwsFaceMatch\Tests\Unit\Traits;
 
 use Illuminate\Support\Facades\Bus;
 use Grananda\AwsFaceMatch\Tests\TestCase;
+use Grananda\AwsFaceMatch\Jobs\FindFaceMatch;
 use Grananda\AwsFaceMatch\Tests\Models\Entity;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 
@@ -23,15 +24,15 @@ class FaceMatchTraitTest extends TestCase
         // Given
         Bus::fake(StoreEntityFaceImage::class);
 
-        /** @var Entity $obj */
-        $obj = Entity::make([
+        /** @var Entity $model */
+        $model = Entity::make([
             'uuid'      => $this->faker->uuid,
             'name'      => $this->faker->name,
             'media_url' => __DIR__.'/../../assets/image1a.jpg',
         ]);
 
         // When
-        $obj->save();
+        $model->save();
 
         // Then
         Bus::assertDispatched(StoreEntityFaceImage::class, 1);
@@ -43,16 +44,16 @@ class FaceMatchTraitTest extends TestCase
         // Given
         Bus::fake(StoreEntityFaceImage::class);
 
-        /** @var Entity $obj */
-        $obj = Entity::make([
+        /** @var Entity $model */
+        $model = Entity::make([
             'uuid'      => $this->faker->uuid,
             'name'      => $this->faker->name,
             'media_url' => __DIR__.'/../../assets/image1a.jpg',
         ]);
-        $obj->save();
+        $model->save();
 
         // When
-        $obj->save();
+        $model->save();
 
         // Then
         Bus::assertDispatched(StoreEntityFaceImage::class, 1);
@@ -64,13 +65,43 @@ class FaceMatchTraitTest extends TestCase
         // Given
         Bus::fake(StoreEntityFaceImage::class);
 
-        /** @var Entity $obj */
-        $obj = new Entity();
+        /** @var Entity $model */
+        $model = new Entity();
 
         // When
-        $response = $obj->getCollection();
+        $response = $model->getCollection();
 
         // Then
-        $this->assertEquals(str_replace('\\', '-', get_class($obj)), $response);
+        $this->assertEquals(str_replace('\\', '-', get_class($model)), $response);
+    }
+
+    /**
+     * @test
+     */
+    public function face_match_job_is_triggered_when_()
+    {
+        // Given
+        Bus::fake(
+            [
+                StoreEntityFaceImage::class,
+                FindFaceMatch::class,
+            ]
+        );
+
+        Entity::create([
+            'uuid'      => $this->faker->uuid,
+            'name'      => $this->faker->name,
+            'media_url' => __DIR__.'/../../assets/image1a.jpg',
+        ]);
+
+        /** @var string $file */
+        $file = __DIR__.'/../../assets/image1b.jpg';
+
+        // When
+        Entity::faceMatch($file);
+
+        // Then
+        Bus::assertDispatched(StoreEntityFaceImage::class, 1);
+        Bus::assertDispatched(FindFaceMatch::class, 1);
     }
 }
