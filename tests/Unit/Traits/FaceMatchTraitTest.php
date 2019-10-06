@@ -2,11 +2,15 @@
 
 namespace Grananda\AwsFaceMatch\Tests\Unit\Traits;
 
+use Mockery;
+use Aws\Result;
 use Illuminate\Support\Facades\Bus;
+use Aws\Rekognition\RekognitionClient;
 use Grananda\AwsFaceMatch\Tests\TestCase;
-use Grananda\AwsFaceMatch\Jobs\FindFaceMatch;
 use Grananda\AwsFaceMatch\Tests\Models\Entity;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
+use Grananda\AwsFaceMatch\Services\AwsFaceMatchFaceService;
+use Grananda\AwsFaceMatch\Services\AwsRekognitionClientFactory;
 
 /**
  * Class FaceMatchTraitTest.
@@ -78,30 +82,67 @@ class FaceMatchTraitTest extends TestCase
     /**
      * @test
      */
-    public function face_match_job_is_triggered_when_()
+    public function entity_id_is_returned_when_requesting_a_match()
     {
         // Given
         Bus::fake(
             [
                 StoreEntityFaceImage::class,
-                FindFaceMatch::class,
             ]
         );
 
-        Entity::create([
-            'uuid'      => $this->faker->uuid,
+        /** @var Result $resultMatch */
+        $resultMatch = new Result($this->loadResponse('face_match_success'));
+
+        /** @var Entity $model */
+        $model = Entity::create([
+            'uuid'      => $resultMatch->get('FaceMatches')['0']['Face']['ExternalImageId'],
             'name'      => $this->faker->name,
             'media_url' => __DIR__.'/../../assets/image1a.jpg',
         ]);
 
         /** @var string $file */
-        $file = __DIR__.'/../../assets/image1b.jpg';
+        $file = $model->getMediaFileValue();
+
+        /** @var string $collectionName */
+        $collectionName = $model->getCollection();
+
+        /** @var Mockery $rekognitionClientMock */
+        $rekognitionClientMock = $this->mock(RekognitionClient::class,
+            function ($mock) use (
+                $model,
+                $file,
+                $collectionName,
+                $resultMatch
+            ) {
+                $mock->shouldReceive('searchFacesByImage')
+                    ->with(
+                        [
+                            'CollectionId'       => $collectionName,
+                            'FaceMatchThreshold' => AwsFaceMatchFaceService::FACE_MATCH_THRESHOLD,
+                            'Image'              => [
+                                'Bytes' => file_get_contents($file),
+                            ],
+                            'MaxFaces' => AwsFaceMatchFaceService::MAX_RETURNED_MATCHING_FACES,
+                        ]
+                    )
+                    ->andReturn($resultMatch)
+                    ->times(1)
+                ;
+            });
+
+        $this->mock('alias:'.AwsRekognitionClientFactory::class, function ($mock) use ($rekognitionClientMock) {
+            $mock->shouldReceive('instantiate')
+                ->andReturn($rekognitionClientMock)
+            ;
+        });
 
         // When
-        Entity::faceMatch($file);
+        $response = Entity::faceMatch($file);
 
         // Then
         Bus::assertDispatched(StoreEntityFaceImage::class, 1);
-        Bus::assertDispatched(FindFaceMatch::class, 1);
+
+        $this->assertEquals($model->uuid, $response->uuid);
     }
 }

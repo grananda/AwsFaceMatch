@@ -38,10 +38,10 @@ class StoreEntityFaceImageTest extends TestCase
         $collectionName = $model->getCollection();
 
         /** @var string $file */
-        $file = $model->getMediaFile();
+        $file = $model->getMediaFileValue();
 
         /** @var string $subjectId */
-        $subjectId = $model->getIdentifier();
+        $subjectId = $model->getIdentifierValue();
 
         /** @var Result $resultList */
         $resultList = new Result($this->loadResponse('collection_list_success'));
@@ -117,8 +117,8 @@ class StoreEntityFaceImageTest extends TestCase
         // When
         StoreEntityFaceImage::dispatch(
             $model->getCollection(),
-            $model->getIdentifier(),
-            $model->getMediaFile()
+            $model->getIdentifierValue(),
+            $model->getMediaFileValue()
         );
 
         // Then

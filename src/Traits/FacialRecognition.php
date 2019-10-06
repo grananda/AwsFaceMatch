@@ -2,8 +2,9 @@
 
 namespace Grananda\AwsFaceMatch\Traits;
 
+use Aws\Result;
 use Illuminate\Database\Eloquent\Model;
-use Grananda\AwsFaceMatch\Jobs\FindFaceMatch;
+use Grananda\AwsFaceMatch\Facades\FaceMatch;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 
 trait FacialRecognition
@@ -16,8 +17,8 @@ trait FacialRecognition
             if ($model->isDirty([$model->recognizable()['mediaField']])) {
                 StoreEntityFaceImage::dispatch(
                     $model->getCollection(),
-                    $model->getIdentifier(),
-                    $model->getMediaFile()
+                    $model->getIdentifierValue(),
+                    $model->getMediaFileValue()
                 );
             }
         });
@@ -52,7 +53,7 @@ trait FacialRecognition
      *
      * @return mixed
      */
-    public function getMediaFile()
+    public function getMediaFileValue()
     {
         return $this->{$this->recognizable()['mediaField']};
     }
@@ -62,7 +63,7 @@ trait FacialRecognition
      *
      * @return mixed
      */
-    public function getIdentifier()
+    public function getIdentifierValue()
     {
         return $this->{$this->recognizable()['identifier']};
     }
@@ -75,6 +76,26 @@ trait FacialRecognition
     private function generateDefaultCollection()
     {
         return str_replace('\\', '-', get_class($this));
+    }
+
+    /**
+     * Returns media to index.
+     *
+     * @return mixed
+     */
+    public function getMediaFile()
+    {
+        return $this->recognizable()['mediaField'];
+    }
+
+    /**
+     * Returns media identifier.
+     *
+     * @return mixed
+     */
+    public function getIdentifier()
+    {
+        return $this->recognizable()['identifier'];
     }
 
     /**
@@ -92,14 +113,16 @@ trait FacialRecognition
         /** @var FacialRecognition $entity */
         $entity = new $class();
 
-        /** @var string $identifier */
-        $identifier = $entity->recognizable()['identifier'];
+        /** @var Result $result */
+        $result = FaceMatch::matchFace($entity->getCollection(), $file);
 
-        /** @var string $id */
-        if ($id = FindFaceMatch::dispatchNow($entity->getCollection(), $file)) {
-            return $entity::where($identifier, $id)->first();
+        if (sizeof($result->get('FaceMatches')) === 0) {
+            return false;
         }
 
-        return false;
+        /** @var strig $identifier */
+        $identifier = $result->get('FaceMatches')['0']['Face']['ExternalImageId'];
+
+        return $entity::where($entity->getIdentifier(), $identifier)->first();
     }
 }

@@ -4,6 +4,7 @@ namespace Grananda\AwsFaceMatch\Tests;
 
 use Faker\Generator;
 use Illuminate\Foundation\Application;
+use Grananda\AwsFaceMatch\Facades\FaceMatch;
 use Orchestra\Testbench\TestCase as Orchestra;
 use Grananda\AwsFaceMatch\FaceMatchServiceProvider;
 
@@ -73,6 +74,13 @@ abstract class TestCase extends Orchestra
         return [
             FaceMatchServiceProvider::class,
             TestServiceProvider::class,
+        ];
+    }
+
+    protected function getPackageAliases($app)
+    {
+        return [
+            'FaceMatch' => FaceMatch::class,
         ];
     }
 
