@@ -16,6 +16,9 @@ Execute the following command to copy the configuration file to your application
 ```sh
 php artisan vendor:publish --provider="Grananda\AwsFaceMatch\FaceMatchServiceProvider"
 ```
+
+Add your AWS `AWS_ACCESS_KEY_ID` and `AWS_SECRET_ACCESS_KEY` credentials to your `.env` file.
+
 For the component to work, you need a set of AWS key and secret as well as the zone where you wish to operate. This values will be read from you `.env` file as usual. Other configuration parameters will be included in the `facematch.php` config file as the component evolves in future versions.
 
 Please remember that for older versions on Laravel <5.5, it is necessary to register the component service provider in your `config/app.php` file under the `$providers` array.
@@ -47,15 +50,15 @@ class Employee extends Model
 
   protected $fillable = [
     'name',
-    'uuid',
-    'media_url',
-];  
+	'uuid',
+	'media_url',
+  ];  
 
   public function recognizable() { 
     return [
       'collection' => 'emloyees',
-      'mediaField' => 'media_url', 
-      'identifier' => 'uuid', 
+	  'mediaField' => 'media_url', 
+	  'identifier' => 'uuid', 
     ]; 
   }
 }  
@@ -77,13 +80,26 @@ No AWS S3 Bucket it needed but could be used for storing your model images. All 
 
 The system only accepts **single face images** when indexing an entity for future recognition.
  
- ## How to use it
+ ## How to Use it
 When a model using the `FacialRecognition` trait creates a new object, the avatar image is stored in the AWS Rekognition services along with the record identifier. The same occurs when the record is updated with a **different** image URL. No Rekognition index action will tale place if the record lacks media URL when saving the item.
 
-### Identifying Models from Image
+### Identifying models from an image
 If we wish to find a model in our system that may match a specif image, we can use the following command:
 
 ```php 
 Employee::faceMatch('path/or/url/to/image.png');
 ```
 Where `Employee` can be replaced by any other model using the face match feature. If there is a match, the command will return the model object corresponding to the given image or `false` otherwise.
+
+### Cleaning up
+The folowing command will remove all images from a model collection. Please use it wisely.
+```php 
+Employee::purgeCollection();
+```
+
+## Comming Soon
+- Move model configuration into the configuration file.
+- Allow for specific indexed models to be removed from a collection.
+- Manually specify the accuracy threshold when detecting matches.
+
+Please feel free to comment and make requests.
