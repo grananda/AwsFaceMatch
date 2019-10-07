@@ -5,6 +5,7 @@ namespace Grananda\AwsFaceMatch\Traits;
 use Aws\Result;
 use Illuminate\Database\Eloquent\Model;
 use Grananda\AwsFaceMatch\Facades\FaceMatch;
+use Grananda\AwsFaceMatch\Facades\FaceCollection;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 
 trait FacialRecognition
@@ -120,9 +121,25 @@ trait FacialRecognition
             return false;
         }
 
-        /** @var strig $identifier */
+        /** @var string $identifier */
         $identifier = $result->get('FaceMatches')['0']['Face']['ExternalImageId'];
 
         return $entity::where($entity->getIdentifier(), $identifier)->first();
+    }
+
+    /**
+     * Clears model entire collection.
+     *
+     * @return Result
+     */
+    public static function purgeCollection()
+    {
+        /** @var string $class */
+        $class = self::class;
+
+        /** @var FacialRecognition $entity */
+        $entity = new $class();
+
+        return FaceCollection::deleteCollection($entity->getCollection());
     }
 }

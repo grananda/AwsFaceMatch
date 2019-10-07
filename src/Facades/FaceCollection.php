@@ -4,10 +4,10 @@ namespace Grananda\AwsFaceMatch\Facades;
 
 use Illuminate\Support\Facades\Facade;
 
-class FaceMatch extends Facade
+class FaceCollection extends Facade
 {
     protected static function getFacadeAccessor()
     {
-        return 'FaceMatch';
+        return 'FaceCollection';
     }
 }
