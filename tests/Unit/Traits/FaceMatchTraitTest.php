@@ -164,4 +164,62 @@ class FaceMatchTraitTest extends TestCase
 
         $this->assertEquals($model->uuid, $response->uuid);
     }
+
+    /**
+     * @test
+     */
+    public function a_collection_is_removed()
+    {
+        // Given
+        Bus::fake(
+            [
+                StoreEntityFaceImage::class,
+            ]
+        );
+
+        /** @var Result $resultMatch */
+        $resultDelete = new Result($this->loadResponse('collection_delete_success'));
+
+        /** @var Entity $model */
+        $model = Entity::create([
+            'uuid'      => $this->faker->uuid,
+            'name'      => $this->faker->name,
+            'media_url' => __DIR__.'/../../assets/image1a.jpg',
+        ]);
+
+        /** @var string $collectionName */
+        $collectionName = $model->getCollection();
+
+        /** @var Mockery $rekognitionClientMock */
+        $rekognitionClientMock = $this->mock(RekognitionClient::class,
+            function ($mock) use (
+                $collectionName,
+                $resultDelete
+            ) {
+                $mock->shouldReceive('deleteCollection')
+                    ->with(
+                        [
+                            'CollectionId' => $collectionName,
+                        ]
+                    )
+                    ->andReturn($resultDelete)
+                    ->times(1)
+                ;
+            });
+
+        $this->mock('alias:'.AwsRekognitionClientFactory::class, function ($mock) use ($rekognitionClientMock) {
+            $mock->shouldReceive('instantiate')
+                ->andReturn($rekognitionClientMock)
+            ;
+        });
+
+        // When
+        /** @var Result $response */
+        $response = Entity::purgeCollection();
+
+        // Then
+        Bus::assertDispatched(StoreEntityFaceImage::class, 1);
+
+        $this->assertEquals(200, $response->get('StatusCode'));
+    }
 }

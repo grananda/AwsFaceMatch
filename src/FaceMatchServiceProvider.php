@@ -7,6 +7,7 @@ use Illuminate\Support\ServiceProvider;
 use Laravel\Lumen\Application as LumenApplication;
 use Grananda\AwsFaceMatch\Services\AwsFaceMatchFaceService;
 use Illuminate\Foundation\Application as LaravelApplication;
+use Grananda\AwsFaceMatch\Services\AwsFaceMatchCollectionService;
 
 class FaceMatchServiceProvider extends ServiceProvider
 {
@@ -29,6 +30,10 @@ class FaceMatchServiceProvider extends ServiceProvider
     {
         App::bind('FaceMatch', function () {
             return new AwsFaceMatchFaceService();
+        });
+
+        App::bind('FaceCollection', function () {
+            return new AwsFaceMatchCollectionService();
         });
     }
 

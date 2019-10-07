@@ -49,7 +49,7 @@ class Employee extends Model
     'name',
     'uuid',
     'media_url',
-];  
+  ];  
 
   public function recognizable() { 
     return [
