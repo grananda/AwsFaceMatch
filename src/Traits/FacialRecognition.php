@@ -10,10 +10,8 @@ use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 
 trait FacialRecognition
 {
-    public static function boot()
+    public static function bootFacialRecognition()
     {
-        parent::boot();
-
         static::saved(function (self $model) {
             if ($model->isDirty([$model->recognizable()['mediaField']])) {
                 StoreEntityFaceImage::dispatch(

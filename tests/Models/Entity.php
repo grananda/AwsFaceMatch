@@ -2,6 +2,7 @@
 
 namespace Grananda\AwsFaceMatch\Tests\Models;
 
+use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 use Illuminate\Database\Eloquent\Model;
 use Grananda\AwsFaceMatch\Traits\FacialRecognition;
 
