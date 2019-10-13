@@ -41,7 +41,7 @@ To start using this package, you must have the model(s) registered in the facema
 'recognize' => [  
     Employee::class => [  
         'collection' => 'entity',  
-        'identifier' => 'uuid,',  
+        'identifier' => 'uuid',  
         'media_file' => 'media_url',  
     ],
 ],

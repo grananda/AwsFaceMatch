@@ -33,11 +33,11 @@ return [
     'recognize' => [
         Entity::class => [
             'collection' => 'entity',
-            'identifier' => 'uuid,',
+            'identifier' => 'uuid',
             'media_file' => 'media_url',
         ],
         OtherEntity::class => [
-            'identifier' => 'uuid,',
+            'identifier' => 'uuid',
             'media_file' => 'media_url',
         ],
     ],
