@@ -5,7 +5,7 @@ namespace Grananda\AwsFaceMatch\Tests\Models;
 use Illuminate\Database\Eloquent\Model;
 use Grananda\AwsFaceMatch\Traits\FacialRecognition;
 
-class Entity extends Model
+class OtherEntity extends Model
 {
     use FacialRecognition;
 

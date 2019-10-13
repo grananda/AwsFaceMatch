@@ -8,12 +8,14 @@
         "face",
         "match"
     ],
-    "homepage": "https://github.com/grananda/AwsFaceMatch.git",
+    "homepage": "https://github.com/grananda/laravel-face-match",
     "license": "MIT",
     "authors": [
         {
             "name": "Julio Fernandez",
-            "email": "jfernandez74@gmail.com"
+            "email": "jfernandez74@gmail.com",
+            "homepage": "https://github.com/grananda",
+            "role": "developer"
         }
     ],
     "require": {

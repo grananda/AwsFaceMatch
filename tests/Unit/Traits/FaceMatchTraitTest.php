@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Bus;
 use Aws\Rekognition\RekognitionClient;
 use Grananda\AwsFaceMatch\Tests\TestCase;
 use Grananda\AwsFaceMatch\Tests\Models\Entity;
+use Grananda\AwsFaceMatch\Tests\Models\OtherEntity;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 use Grananda\AwsFaceMatch\Services\AwsFaceMatchFaceService;
 use Grananda\AwsFaceMatch\Services\AwsRekognitionClientFactory;
@@ -89,7 +90,7 @@ class FaceMatchTraitTest extends TestCase
         Bus::fake(StoreEntityFaceImage::class);
 
         /** @var Entity $model */
-        $model = new Entity();
+        $model = new OtherEntity();
 
         // When
         $response = $model->getCollection();
