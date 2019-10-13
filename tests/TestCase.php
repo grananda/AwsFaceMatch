@@ -56,8 +56,16 @@ abstract class TestCase extends Orchestra
             'database' => ':memory:',
             'prefix'   => '',
         ]);
+
         $app['config']->set('facematch.aws.region', 'eu-central-1');
         $app['config']->set('facematch.aws.version', 'latest');
+
+        $app['config']->set('facematch.recognize.Grananda\AwsFaceMatch\Tests\Models\Entity.collection', 'entity');
+        $app['config']->set('facematch.recognize.Grananda\AwsFaceMatch\Tests\Models\Entity.identifier', 'uuid');
+        $app['config']->set('facematch.recognize.Grananda\AwsFaceMatch\Tests\Models\Entity.media_file', 'media_url');
+
+        $app['config']->set('facematch.recognize.Grananda\AwsFaceMatch\Tests\Models\OtherEntity.identifier', 'uuid');
+        $app['config']->set('facematch.recognize.Grananda\AwsFaceMatch\Tests\Models\OtherEntity.media_file', 'media_url');
     }
 
     /**
