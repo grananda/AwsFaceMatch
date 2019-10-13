@@ -7,6 +7,7 @@ return [
      * The mandatory parameters to include into the .env file are key, secret.
      * Region and version parameter is only necessary if different than default.
      */
+
     'aws' => [
         'key'     => env('AWS_ACCESS_KEY_ID'),
         'secret'  => env('AWS_SECRET_ACCESS_KEY'),
@@ -25,6 +26,7 @@ return [
      *  - Identifier: which unique field in the model database will be used to identify the record once a face match occurs.
      *    It is recommended to use a UUID field for such a purpose.
      */
+
     'recognize' => [
         'Entity' => [
             'collection' => 'entity',
