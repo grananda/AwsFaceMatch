@@ -137,6 +137,6 @@ trait FacialRecognition
      */
     private function getModelConfigArrayKey()
     {
-        return class_basename($this);
+        return get_class($this);
     }
 }

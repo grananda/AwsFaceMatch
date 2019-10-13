@@ -39,7 +39,7 @@ To start using this package, you must have the model(s) registered in the facema
 
 ``` php
 'recognize' => [  
-    'Employee' => [  
+    Employee::class => [  
         'collection' => 'entity',  
         'identifier' => 'uuid,',  
         'media_file' => 'media_url',  

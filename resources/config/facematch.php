@@ -1,5 +1,8 @@
 <?php
 
+use Grananda\AwsFaceMatch\Tests\Models\Entity;
+use Grananda\AwsFaceMatch\Tests\Models\OtherEntity;
+
 return [
     /*
      * Configure the AWS credentials.
@@ -28,12 +31,12 @@ return [
      */
 
     'recognize' => [
-        'Entity' => [
+        Entity::class => [
             'collection' => 'entity',
             'identifier' => 'uuid,',
             'media_file' => 'media_url',
         ],
-        'OtherEntity' => [
+        OtherEntity::class => [
             'identifier' => 'uuid,',
             'media_file' => 'media_url',
         ],
