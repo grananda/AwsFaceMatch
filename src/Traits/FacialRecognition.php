@@ -13,7 +13,7 @@ trait FacialRecognition
     public static function bootFacialRecognition()
     {
         static::saved(function (self $model) {
-            if ($model->isDirty([$model->recognizable()['mediaField']])) {
+            if ($model->isDirty([$model->getMediaFile()])) {
                 StoreEntityFaceImage::dispatch(
                     $model->getCollection(),
                     $model->getIdentifierValue(),
@@ -24,27 +24,16 @@ trait FacialRecognition
     }
 
     /**
-     * Defines parameters for model facial match.
-     *
-     * @return array
-     */
-    public function recognizable()
-    {
-        return [
-            'collection' => $this->generateDefaultCollection(),
-            'mediaField' => 'media_url',
-            'identifier' => 'id',
-        ];
-    }
-
-    /**
      * Returns face match collection.
      *
      * @return mixed
      */
     public function getCollection()
     {
-        return $this->recognizable()['collection'] ?? $this->generateDefaultCollection();
+        /** @var string $collection */
+        $collection = config('facematch.recognize.'.$this->getModelConfigArrayKey().'.collection');
+
+        return $collection ?? $this->generateDefaultCollection();
     }
 
     /**
@@ -54,7 +43,7 @@ trait FacialRecognition
      */
     public function getMediaFileValue()
     {
-        return $this->{$this->recognizable()['mediaField']};
+        return $this->{$this->getMediaFile()};
     }
 
     /**
@@ -64,7 +53,7 @@ trait FacialRecognition
      */
     public function getIdentifierValue()
     {
-        return $this->{$this->recognizable()['identifier']};
+        return $this->{$this->getIdentifier()};
     }
 
     /**
@@ -84,7 +73,7 @@ trait FacialRecognition
      */
     public function getMediaFile()
     {
-        return $this->recognizable()['mediaField'];
+        return config('facematch.recognize.'.$this->getModelConfigArrayKey().'.media_file');
     }
 
     /**
@@ -94,7 +83,7 @@ trait FacialRecognition
      */
     public function getIdentifier()
     {
-        return $this->recognizable()['identifier'];
+        return config('facematch.recognize.'.$this->getModelConfigArrayKey().'.identifier');
     }
 
     /**
@@ -139,5 +128,15 @@ trait FacialRecognition
         $entity = new $class();
 
         return FaceCollection::deleteCollection($entity->getCollection());
+    }
+
+    /**
+     * Returns config model configuration.
+     *
+     * @return string
+     */
+    private function getModelConfigArrayKey()
+    {
+        return class_basename($this);
     }
 }
