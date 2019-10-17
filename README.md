@@ -41,7 +41,7 @@ To start using this package, you must have the model(s) registered in the facema
 'recognize' => [  
     Employee::class => [  
         'collection' => 'entity',  
-        'identifier' => 'uuid',  
+        'identifier' => 'uuid,',  
         'media_file' => 'media_url',  
     ],
 ],
@@ -96,11 +96,15 @@ Where `Employee` can be replaced by any other model using the face match feature
 The folowing command will remove all images from a model collection. Please use it wisely.  
 ```php 
 Employee::purgeCollection();  
-```  
+```
+### Mass Indexing  
+To indexing already existing data, run the following command from the console:
+```sh 
+php artisan facematch:index
+```
   
 ## Comming Soon  
 - Allow for specific indexed models to be removed from a collection.  
 - Manually specify the accuracy threshold when detecting matches.  
-- Create command for indexing already existing model items.
   
 Please feel free to comment and make requests.
