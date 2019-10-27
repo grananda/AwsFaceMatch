@@ -18,6 +18,7 @@ class CreateEntitiesTestTable extends Migration
             $table->uuid('uuid')->nullable();
             $table->string('name')->nullable();
             $table->string('media_url')->nullable();
+            $table->binary('media_data')->nullable();
         });
     }
 

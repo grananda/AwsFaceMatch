@@ -13,6 +13,14 @@ use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 use Grananda\AwsFaceMatch\Commands\FaceMatchModelIndex;
 use Grananda\AwsFaceMatch\Services\AwsRekognitionClientFactory;
 
+/**
+ * Class FaceMatchModelIndexTest.
+ *
+ * @group unit
+ * @covers \Grananda\AwsFaceMatch\Commands\FaceMatchModelIndex
+ *
+ * @package Grananda\AwsFaceMatch\Tests\Unit\Commands
+ */
 class FaceMatchModelIndexTest extends TestCase
 {
     /**

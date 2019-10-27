@@ -65,7 +65,17 @@ abstract class TestCase extends Orchestra
         $app['config']->set('facematch.recognize.Grananda\AwsFaceMatch\Tests\Models\Entity.media_file', 'media_url');
 
         $app['config']->set('facematch.recognize.Grananda\AwsFaceMatch\Tests\Models\OtherEntity.identifier', 'uuid');
-        $app['config']->set('facematch.recognize.Grananda\AwsFaceMatch\Tests\Models\OtherEntity.media_file', 'media_url');
+        $app['config']->set('facematch.recognize.Grananda\AwsFaceMatch\Tests\Models\OtherEntity.media_file',
+            'media_url');
+
+        $file = '../../../accessKeys.csv';
+
+        if (file_exists($file)) {
+            $csv = array_map('str_getcsv', file($file));
+
+            $app['config']->set('facematch.aws.key', $csv[1][0]);
+            $app['config']->set('facematch.aws.secret', $csv[1][1]);
+        }
     }
 
     /**

@@ -105,7 +105,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         $collectionName = $this->faker->word;
 
         /** @var string $file */
-        $file = 'https://www.google.com/images/branding/googlelogo/1x/googlelogo_color_272x92dp.png';
+        $file = 'https://upload.wikimedia.org/wikipedia/commons/thumb/c/cc/Natalia_Lafourcade_2018_Gran_Rex_37_%28Cropped%29.jpg/800px-Natalia_Lafourcade_2018_Gran_Rex_37_%28Cropped%29.jpg';
 
         /** @var Result $resultCreate */
         $resultDetect = new Result($this->loadResponse('face_detect_success'));
