@@ -25,6 +25,9 @@ class FaceMatchModelIndexTest extends TestCase
 {
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function all_records_from_different_models_are_indexed()
     {

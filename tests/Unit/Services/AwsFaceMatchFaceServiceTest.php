@@ -25,6 +25,9 @@ class AwsFaceMatchFaceServiceTest extends TestCase
     /**
      * @test
      *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
      * @throws Exception
      */
     public function an_image_can_be_indexed()
@@ -96,6 +99,9 @@ class AwsFaceMatchFaceServiceTest extends TestCase
     /**
      * @test
      *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
      * @throws Exception
      */
     public function an_remote_image_can_be_indexed()
@@ -166,6 +172,9 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function an_image_with_multiple_faces_cannot_be_indexed()
     {
@@ -219,6 +228,9 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function an_image_with_no_face_cannot_be_indexed()
     {
@@ -272,6 +284,9 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function an_matching_image_is_recognized()
     {
@@ -325,6 +340,9 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function an_non_matching_image_is_not_recognized()
     {

@@ -23,6 +23,9 @@ class StoreEntityFaceImageTest extends TestCase
 {
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function model_image_is_indexed_in_collection()
     {

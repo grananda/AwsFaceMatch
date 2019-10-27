@@ -13,7 +13,7 @@ use Grananda\AwsFaceMatch\Services\AwsFaceMatchCollectionService;
  *
  * @package Grananda\AwsFaceMatch\Tests
  *
- * @group unit
+ * @group external
  * @covers \Grananda\AwsFaceMatch\Services\AwsFaceMatchService
  */
 class AwsFaceMatchFaceServiceTest extends TestCase

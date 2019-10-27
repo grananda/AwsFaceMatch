@@ -23,7 +23,12 @@ use Grananda\AwsFaceMatch\Services\AwsRekognitionClientFactory;
  */
 class FaceMatchTraitTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function job_is_dispatched_on_model_saved()
     {
         // Given
@@ -43,7 +48,12 @@ class FaceMatchTraitTest extends TestCase
         Bus::assertDispatched(StoreEntityFaceImage::class, 1);
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function job_is_not_dispatched_on_model_saved_without_image_change()
     {
         // Given
@@ -64,7 +74,12 @@ class FaceMatchTraitTest extends TestCase
         Bus::assertDispatched(StoreEntityFaceImage::class, 1);
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function job_is_not_dispatched_on_model_when_image_is_missing()
     {
         // Given
@@ -83,7 +98,12 @@ class FaceMatchTraitTest extends TestCase
         Bus::assertNotDispatched(StoreEntityFaceImage::class);
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function a_proper_collection_name_is_returned_when_not_defined()
     {
         // Given
@@ -101,6 +121,9 @@ class FaceMatchTraitTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function entity_id_is_returned_when_requesting_a_match()
     {
@@ -168,6 +191,9 @@ class FaceMatchTraitTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function a_collection_is_removed()
     {

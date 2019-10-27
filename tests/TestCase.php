@@ -68,7 +68,7 @@ abstract class TestCase extends Orchestra
         $app['config']->set('facematch.recognize.Grananda\AwsFaceMatch\Tests\Models\OtherEntity.media_file',
             'media_url');
 
-        $file = '../../../accessKeys.csv';
+        $file = __DIR__.'/../accessKeys.csv';
 
         if (file_exists($file)) {
             $csv = array_map('str_getcsv', file($file));
