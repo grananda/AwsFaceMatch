@@ -17,14 +17,15 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
      * @param string $collection
      * @param string $subjectId
      * @param string $file
+     * @param bool   $binary
      *
      * @return \Aws\Result|bool
      */
-    public function indexFace(string $collection, string $subjectId, string $file)
+    public function indexFace(string $collection, string $subjectId, string $file, $binary = false)
     {
-        if ($this->hasSingleFace($file)) {
+        if ($this->hasSingleFace($file, $binary)) {
             /** @var string $file */
-            $file = $this->readFile($file);
+            $file = $this->readFile($file, $binary);
 
             return $this->client->indexFaces(
                 [
@@ -72,13 +73,14 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
      * Detects if an image contains a single face.
      *
      * @param string $file
+     * @param bool   $binary
      *
      * @return bool
      */
-    private function hasSingleFace(string $file)
+    private function hasSingleFace(string $file, bool $binary)
     {
         /** @var string $file */
-        $file = $this->readFile($file);
+        $file = $this->readFile($file, $binary);
 
         /** @var Result $faces */
         $faces = $this->client->detectFaces(
@@ -97,11 +99,12 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
      * Reads image file content.
      *
      * @param string $file
+     * @param bool   $binary
      *
      * @return false|string
      */
-    private function readFile(string $file)
+    private function readFile(string $file, $binary = false)
     {
-        return file_get_contents($file);
+        return $binary ? base64_decode($file) : file_get_contents($file);
     }
 }

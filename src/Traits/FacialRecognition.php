@@ -13,11 +13,12 @@ trait FacialRecognition
     public static function bootFacialRecognition()
     {
         static::saved(function (self $model) {
-            if ($model->isDirty([$model->getMediaFile()])) {
+            if ($model->isDirty([$model->getMediaField()])) {
                 StoreEntityFaceImage::dispatch(
                     $model->getCollection(),
                     $model->getIdentifierValue(),
-                    $model->getMediaFileValue()
+                    $model->getMediaFieldValue(),
+                    $model->isBinary()
                 );
             }
         });
@@ -41,9 +42,9 @@ trait FacialRecognition
      *
      * @return mixed
      */
-    public function getMediaFileValue()
+    public function getMediaFieldValue()
     {
-        return $this->{$this->getMediaFile()};
+        return $this->isBinary() ? base64_encode($this->{$this->getMediaField()}) : $this->{$this->getMediaField()};
     }
 
     /**
@@ -71,9 +72,9 @@ trait FacialRecognition
      *
      * @return mixed
      */
-    public function getMediaFile()
+    public function getMediaField()
     {
-        return config('facematch.recognize.'.$this->getModelConfigArrayKey().'.media_file');
+        return config('facematch.recognize.'.$this->getModelConfigArrayKey().'.media.field');
     }
 
     /**
@@ -84,6 +85,16 @@ trait FacialRecognition
     public function getIdentifier()
     {
         return config('facematch.recognize.'.$this->getModelConfigArrayKey().'.identifier');
+    }
+
+    /**
+     * Returns media field type binary assertion.
+     *
+     * @return \Illuminate\Config\Repository|mixed
+     */
+    public function isBinary()
+    {
+        return (bool) config('facematch.recognize.'.$this->getModelConfigArrayKey().'.media.binary');
     }
 
     /**

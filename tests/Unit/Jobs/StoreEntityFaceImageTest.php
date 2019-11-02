@@ -41,7 +41,7 @@ class StoreEntityFaceImageTest extends TestCase
         $collectionName = $model->getCollection();
 
         /** @var string $file */
-        $file = $model->getMediaFileValue();
+        $file = $model->getMediaFieldValue();
 
         /** @var string $subjectId */
         $subjectId = $model->getIdentifierValue();
@@ -121,7 +121,7 @@ class StoreEntityFaceImageTest extends TestCase
         StoreEntityFaceImage::dispatch(
             $model->getCollection(),
             $model->getIdentifierValue(),
-            $model->getMediaFileValue()
+            $model->getMediaFieldValue()
         );
 
         // Then

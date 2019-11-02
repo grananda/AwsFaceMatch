@@ -39,17 +39,26 @@ class StoreEntityFaceImage implements ShouldQueue
     private $file;
 
     /**
+     * Defines if model field contains binary data.
+     *
+     * @var bool
+     */
+    private $binary = false;
+
+    /**
      * EntityImageWasStored constructor.
      *
      * @param string $collection
      * @param string $subjectId
      * @param string $file
+     * @param bool   $binary
      */
-    public function __construct(string $collection, string $subjectId, string $file)
+    public function __construct(string $collection, string $subjectId, string $file, bool $binary = false)
     {
         $this->collection = $collection;
         $this->subjectId  = $subjectId;
         $this->file       = $file;
+        $this->binary     = $binary;
     }
 
     /**
@@ -66,6 +75,6 @@ class StoreEntityFaceImage implements ShouldQueue
     ) {
         $awsFaceMatchCollectionService->initializeCollection($this->collection);
 
-        $awsFaceMatchFaceService->indexFace($this->collection, $this->subjectId, $this->file);
+        $awsFaceMatchFaceService->indexFace($this->collection, $this->subjectId, $this->file, $this->binary);
     }
 }

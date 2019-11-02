@@ -145,7 +145,7 @@ class FaceMatchTraitTest extends TestCase
         ]);
 
         /** @var string $file */
-        $file = $model->getMediaFileValue();
+        $file = $model->getMediaFieldValue();
 
         /** @var string $collectionName */
         $collectionName = $model->getCollection();

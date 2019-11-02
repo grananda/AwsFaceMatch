@@ -76,7 +76,7 @@ class FaceMatchModelIndex extends Command
 
                 foreach ($records as $record) {
                     $this->awsFaceMatchFaceService->indexFace($collection, $record->getIdentifierValue(),
-                        $record->getMediaFileValue());
+                        $record->getMediaFieldValue());
                 }
             }
         }

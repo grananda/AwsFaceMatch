@@ -4,6 +4,7 @@ namespace Grananda\AwsFaceMatch\Tests\External\Traits;
 
 use Grananda\AwsFaceMatch\Tests\TestCase;
 use Grananda\AwsFaceMatch\Tests\Models\Entity;
+use Grananda\AwsFaceMatch\Tests\Models\BinEntity;
 
 /**
  * Class AwsFaceMatchServiceTest.
@@ -42,6 +43,37 @@ class FaceMatchTraitTest extends TestCase
 
         // When
         $response = Entity::faceMatch($file2);
+
+        // Then
+        $this->assertEquals($model->uuid, $response->uuid);
+    }
+
+    /**
+     * @test
+     */
+    public function entity_id_is_returned_when_requesting_a_bin_match()
+    {
+        // Given
+        /** @var string $uuid */
+        $uuid = $this->faker->uuid;
+
+        /** @var string $file1 */
+        $file1 = __DIR__.'/../../assets/image1a.jpg';
+
+        /** @var string $file2 */
+        $file2 = __DIR__.'/../../assets/image1b.jpg';
+
+        Entity::purgeCollection();
+
+        /** @var Entity $model */
+        $model = BinEntity::create([
+            'uuid'      => $uuid,
+            'name'      => $this->faker->name,
+            'media_url' => file_get_contents($file1),
+        ]);
+
+        // When
+        $response = BinEntity::faceMatch($file2);
 
         // Then
         $this->assertEquals($model->uuid, $response->uuid);
