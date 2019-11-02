@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateEntitiesTestTable extends Migration
+class CreateBinEntitiesTestTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,11 +13,11 @@ class CreateEntitiesTestTable extends Migration
      */
     public function up()
     {
-        Schema::create('entities', function (Blueprint $table) {
+        Schema::create('bin_entities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->nullable();
             $table->string('name')->nullable();
-            $table->string('media_url')->nullable();
+            $table->binary('media_url')->nullable();
         });
     }
 
@@ -28,6 +28,6 @@ class CreateEntitiesTestTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('entities');
+        Schema::dropIfExists('bin_entities');
     }
 }

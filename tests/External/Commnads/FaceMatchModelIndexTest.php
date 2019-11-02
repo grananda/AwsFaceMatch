@@ -13,7 +13,7 @@ use Grananda\AwsFaceMatch\Services\AwsFaceMatchCollectionService;
 /**
  * Class FaceMatchModelIndexTest.
  *
- * @group unit
+ * @group external
  * @covers \Grananda\AwsFaceMatch\Commands\FaceMatchModelIndex
  *
  * @package Grananda\AwsFaceMatch\Tests\Unit\Commands
