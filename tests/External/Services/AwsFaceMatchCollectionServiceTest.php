@@ -32,6 +32,8 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
 
+        $collectionService->purgeCollections();
+
         /** @var AwsFaceMatchCollectionService $service */
         $service = resolve(AwsFaceMatchCollectionService::class);
 
@@ -55,6 +57,8 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
 
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
+
+        $collectionService->purgeCollections();
 
         /** @var AwsFaceMatchCollectionService $service */
         $service = resolve(AwsFaceMatchCollectionService::class);
@@ -83,6 +87,8 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
 
+        $collectionService->purgeCollections();
+
         /** @var AwsFaceMatchCollectionService $service */
         $service = resolve(AwsFaceMatchCollectionService::class);
 
@@ -108,6 +114,8 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
 
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
+
+        $collectionService->purgeCollections();
 
         $collectionService->initializeCollection($collectionName);
 

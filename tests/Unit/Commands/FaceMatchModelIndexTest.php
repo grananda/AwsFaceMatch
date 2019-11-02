@@ -75,12 +75,12 @@ class FaceMatchModelIndexTest extends TestCase
             function ($mock) use ($resultCreate, $resultList, $resultDetect, $resultIndex) {
                 $mock->shouldReceive('createCollection')
                     ->andReturn($resultCreate)
-                    ->times(2)
+                    ->times(3)
                 ;
 
                 $mock->shouldReceive('listCollections')
                     ->andReturn($resultList)
-                    ->times(2)
+                    ->times(3)
                 ;
 
                 $mock->shouldReceive('detectFaces')

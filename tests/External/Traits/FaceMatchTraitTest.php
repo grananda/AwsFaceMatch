@@ -46,6 +46,8 @@ class FaceMatchTraitTest extends TestCase
 
         // Then
         $this->assertEquals($model->uuid, $response->uuid);
+
+        Entity::purgeCollection();
     }
 
     /**
@@ -77,6 +79,8 @@ class FaceMatchTraitTest extends TestCase
 
         // Then
         $this->assertEquals($model->uuid, $response->uuid);
+
+        Entity::purgeCollection();
     }
 
     /**
@@ -108,5 +112,7 @@ class FaceMatchTraitTest extends TestCase
 
         // Then
         $this->assertFalse($response);
+
+        Entity::purgeCollection();
     }
 }

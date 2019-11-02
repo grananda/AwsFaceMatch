@@ -38,6 +38,8 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
 
+        $collectionService->purgeCollections();
+
         /** @var AwsFaceMatchFaceService $service */
         $service = resolve(AwsFaceMatchFaceService::class);
 
@@ -72,6 +74,8 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
 
+        $collectionService->purgeCollections();
+
         /** @var AwsFaceMatchFaceService $service */
         $service = resolve(AwsFaceMatchFaceService::class);
 
@@ -104,6 +108,8 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
 
+        $collectionService->purgeCollections();
+
         /** @var AwsFaceMatchFaceService $service */
         $service = resolve(AwsFaceMatchFaceService::class);
 
@@ -135,6 +141,8 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
+
+        $collectionService->purgeCollections();
 
         /** @var AwsFaceMatchFaceService $service */
         $service = resolve(AwsFaceMatchFaceService::class);
@@ -170,6 +178,8 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
+
+        $collectionService->purgeCollections();
 
         /** @var AwsFaceMatchFaceService $service */
         $service = resolve(AwsFaceMatchFaceService::class);
@@ -207,6 +217,8 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
+
+        $collectionService->purgeCollections();
 
         /** @var AwsFaceMatchFaceService $service */
         $service = resolve(AwsFaceMatchFaceService::class);

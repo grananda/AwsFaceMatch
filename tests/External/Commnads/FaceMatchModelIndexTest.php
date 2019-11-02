@@ -13,7 +13,7 @@ use Grananda\AwsFaceMatch\Services\AwsFaceMatchCollectionService;
 /**
  * Class FaceMatchModelIndexTest.
  *
- * @group external
+ * @group unit
  * @covers \Grananda\AwsFaceMatch\Commands\FaceMatchModelIndex
  *
  * @package Grananda\AwsFaceMatch\Tests\Unit\Commands
@@ -44,6 +44,10 @@ class FaceMatchModelIndexTest extends TestCase
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
 
+        $collectionService->purgeCollections();
+
+        $collectionService->purgeCollections();
+
         /** @var FaceMatchModelIndex $command */
         $command = resolve(FaceMatchModelIndex::class);
 
@@ -58,7 +62,5 @@ class FaceMatchModelIndexTest extends TestCase
 
         $this->assertEquals($response1->uuid, $model1->uuid);
         $this->assertFalse($response2);
-
-        $collectionService->purgeCollections();
     }
 }
