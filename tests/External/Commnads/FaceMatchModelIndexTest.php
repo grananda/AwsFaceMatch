@@ -13,7 +13,7 @@ use Grananda\AwsFaceMatch\Services\AwsFaceMatchCollectionService;
 /**
  * Class FaceMatchModelIndexTest.
  *
- * @group unit
+ * @group external
  * @covers \Grananda\AwsFaceMatch\Commands\FaceMatchModelIndex
  *
  * @package Grananda\AwsFaceMatch\Tests\Unit\Commands
@@ -23,7 +23,7 @@ class FaceMatchModelIndexTest extends TestCase
     /**
      * @test
      */
-    public function all_records_from_different_models_are_indexed_with()
+    public function all_records_from_different_models_are_indexed()
     {
         Bus::fake(StoreEntityFaceImage::class);
 
