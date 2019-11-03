@@ -5,7 +5,7 @@ namespace Grananda\AwsFaceMatch\Models;
 use Ramsey\Uuid\Uuid;
 use Illuminate\Database\Eloquent\Model;
 
-class FaceMatchEntity extends Model
+class Collection extends Model
 {
     public static function boot()
     {
@@ -27,18 +27,18 @@ class FaceMatchEntity extends Model
      * @var array
      */
     protected $fillable = [
+        'collection_arn',
         'collection_id',
-        'face_id',
-        'entity_ref',
+        'entity',
     ];
 
     /**
-     * Collection where the face is stored.
+     * Faces within the collection.
      *
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function collection()
+    public function faces()
     {
-        return $this->belongsTo(Collection::class);
+        return $this->hasMany(FaceMatchEntity::class);
     }
 }

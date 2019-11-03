@@ -16,12 +16,14 @@ class CreateFaceMatchEntitiesTable extends Migration
         Schema::create('face_match_entities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->nullable();
-            $table->string('collection_arn')->nullable(false);
-            $table->string('collection_id')->nullable(false);
+            $table->unsignedBigInteger('collection_id')->nullable(false);
             $table->string('face_id')->nullable(false);
-            $table->string('entity')->nullable(false);
             $table->string('entity_ref')->nullable(false);
             $table->timestamps();
+        });
+
+        Schema::table('face_match_entities', function (Blueprint $table) {
+            $table->foreign('collection_id')->references('id')->on('face_match_collections')->onDelete('cascade');
         });
     }
 

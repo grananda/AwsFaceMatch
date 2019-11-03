@@ -18,6 +18,7 @@ trait FacialRecognition
                     $model->getCollection(),
                     $model->getIdentifierValue(),
                     $model->getMediaFieldValue(),
+                    get_class($model),
                     $model->isBinary()
                 );
             }
