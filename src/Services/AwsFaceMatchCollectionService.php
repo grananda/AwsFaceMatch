@@ -3,6 +3,8 @@
 namespace Grananda\AwsFaceMatch\Services;
 
 use Aws\Result;
+use Illuminate\Support\Facades\Log;
+use Aws\Rekognition\Exception\RekognitionException;
 
 final class AwsFaceMatchCollectionService extends AwsFaceMatchService
 {
@@ -61,15 +63,21 @@ final class AwsFaceMatchCollectionService extends AwsFaceMatchService
      *
      * @param string $collection
      *
-     * @return Result
+     * @return bool|Result
      */
     public function deleteCollection(string $collection)
     {
-        return $this->client->deleteCollection(
-            [
-                'CollectionId' => $collection,
-            ]
-        );
+        try {
+            return $this->client->deleteCollection(
+                [
+                    'CollectionId' => $collection,
+                ]
+            );
+        } catch (RekognitionException $rekognitionException) {
+            Log::info($rekognitionException->getMessage());
+
+            return false;
+        }
     }
 
     /**
@@ -77,14 +85,20 @@ final class AwsFaceMatchCollectionService extends AwsFaceMatchService
      *
      * @param string $collection
      *
-     * @return Result
+     * @return bool|Result
      */
     public function describeCollection(string $collection)
     {
-        return $this->client->describeCollection(
-            [
-                'CollectionId' => $collection,
-            ]
-        );
+        try {
+            return $this->client->describeCollection(
+                [
+                    'CollectionId' => $collection,
+                ]
+            );
+        } catch (RekognitionException $rekognitionException) {
+            Log::info($rekognitionException->getMessage());
+
+            return false;
+        }
     }
 }

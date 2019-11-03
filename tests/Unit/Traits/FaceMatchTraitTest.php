@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Bus;
 use Aws\Rekognition\RekognitionClient;
 use Grananda\AwsFaceMatch\Tests\TestCase;
 use Grananda\AwsFaceMatch\Tests\Models\Entity;
+use Grananda\AwsFaceMatch\Tests\Models\BinEntity;
 use Grananda\AwsFaceMatch\Tests\Models\OtherEntity;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 use Grananda\AwsFaceMatch\Services\AwsFaceMatchFaceService;
@@ -23,7 +24,12 @@ use Grananda\AwsFaceMatch\Services\AwsRekognitionClientFactory;
  */
 class FaceMatchTraitTest extends TestCase
 {
-    /** @test */
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function job_is_dispatched_on_model_saved()
     {
         // Given
@@ -43,7 +49,37 @@ class FaceMatchTraitTest extends TestCase
         Bus::assertDispatched(StoreEntityFaceImage::class, 1);
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function job_is_dispatched_on_binary_model_saved()
+    {
+        // Given
+        Bus::fake(StoreEntityFaceImage::class);
+
+        /** @var Entity $model */
+        $model = BinEntity::make([
+            'uuid'      => $this->faker->uuid,
+            'name'      => $this->faker->name,
+            'media_url' => file_get_contents(__DIR__.'/../../assets/image1a.jpg'),
+        ]);
+
+        // When
+        $model->save();
+
+        // Then
+        Bus::assertDispatched(StoreEntityFaceImage::class, 1);
+    }
+
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function job_is_not_dispatched_on_model_saved_without_image_change()
     {
         // Given
@@ -64,7 +100,12 @@ class FaceMatchTraitTest extends TestCase
         Bus::assertDispatched(StoreEntityFaceImage::class, 1);
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function job_is_not_dispatched_on_model_when_image_is_missing()
     {
         // Given
@@ -83,7 +124,12 @@ class FaceMatchTraitTest extends TestCase
         Bus::assertNotDispatched(StoreEntityFaceImage::class);
     }
 
-    /** @test */
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
     public function a_proper_collection_name_is_returned_when_not_defined()
     {
         // Given
@@ -101,6 +147,9 @@ class FaceMatchTraitTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function entity_id_is_returned_when_requesting_a_match()
     {
@@ -122,7 +171,7 @@ class FaceMatchTraitTest extends TestCase
         ]);
 
         /** @var string $file */
-        $file = $model->getMediaFileValue();
+        $file = $model->getMediaFieldValue();
 
         /** @var string $collectionName */
         $collectionName = $model->getCollection();
@@ -168,6 +217,79 @@ class FaceMatchTraitTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function entity_id_is_returned_when_requesting_a_match_from_binary()
+    {
+        // Given
+        Bus::fake(
+            [
+                StoreEntityFaceImage::class,
+            ]
+        );
+
+        /** @var Result $resultMatch */
+        $resultMatch = new Result($this->loadResponse('face_match_success'));
+
+        /** @var Entity $model */
+        $model = Entity::create([
+            'uuid'      => $resultMatch->get('FaceMatches')['0']['Face']['ExternalImageId'],
+            'name'      => $this->faker->name,
+            'media_url' => file_get_contents(__DIR__.'/../../assets/image1a.jpg'),
+        ]);
+
+        /** @var string $file */
+        $file = $model->getMediaFieldValue();
+
+        /** @var string $collectionName */
+        $collectionName = $model->getCollection();
+
+        /** @var Mockery $rekognitionClientMock */
+        $rekognitionClientMock = $this->mock(RekognitionClient::class,
+            function ($mock) use (
+                $model,
+                $file,
+                $collectionName,
+                $resultMatch
+            ) {
+                $mock->shouldReceive('searchFacesByImage')
+                    ->with(
+                        [
+                            'CollectionId'       => $collectionName,
+                            'FaceMatchThreshold' => AwsFaceMatchFaceService::FACE_MATCH_THRESHOLD,
+                            'Image'              => [
+                                'Bytes' => $file,
+                            ],
+                            'MaxFaces' => AwsFaceMatchFaceService::MAX_RETURNED_MATCHING_FACES,
+                        ]
+                    )
+                    ->andReturn($resultMatch)
+                    ->times(1)
+                ;
+            });
+
+        $this->mock('alias:'.AwsRekognitionClientFactory::class, function ($mock) use ($rekognitionClientMock) {
+            $mock->shouldReceive('instantiate')
+                ->andReturn($rekognitionClientMock)
+            ;
+        });
+
+        // When
+        $response = Entity::faceMatch(__DIR__.'/../../assets/image1a.jpg');
+
+        // Then
+        Bus::assertDispatched(StoreEntityFaceImage::class, 1);
+
+        $this->assertEquals($model->uuid, $response->uuid);
+    }
+
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function a_collection_is_removed()
     {

@@ -1,6 +1,7 @@
 <?php
 
 use Grananda\AwsFaceMatch\Tests\Models\Entity;
+use Grananda\AwsFaceMatch\Tests\Models\BinEntity;
 use Grananda\AwsFaceMatch\Tests\Models\OtherEntity;
 
 return [
@@ -34,11 +35,25 @@ return [
         Entity::class => [
             'collection' => 'entity',
             'identifier' => 'uuid',
-            'media_file' => 'media_url',
+            'media'      => [
+                'field'  => 'media_url',
+                'binary' => false,
+            ],
+        ],
+        BinEntity::class => [
+            'collection' => 'entity',
+            'identifier' => 'uuid',
+            'media'      => [
+                'field'  => 'media_url',
+                'binary' => true,
+            ],
         ],
         OtherEntity::class => [
             'identifier' => 'uuid',
-            'media_file' => 'media_url',
+            'media'      => [
+                'field'  => 'media_url',
+                'binary' => false,
+            ],
         ],
     ],
 ];
