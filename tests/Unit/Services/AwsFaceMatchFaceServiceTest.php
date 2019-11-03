@@ -104,6 +104,80 @@ class AwsFaceMatchFaceServiceTest extends TestCase
      *
      * @throws Exception
      */
+    public function an_binary_image_can_be_indexed()
+    {
+        // Given
+        /** @var string $collectionName */
+        $collectionName = $this->faker->word;
+
+        /** @var string $file */
+        $file = file_get_contents(__DIR__.'/../../assets/image1a.jpg');
+
+        /** @var Result $resultCreate */
+        $resultDetect = new Result($this->loadResponse('face_detect_success'));
+
+        /** @var Result $resultList */
+        $resultIndex = new Result($this->loadResponse('image_index_success'));
+
+        /** @var string $subjectId */
+        $subjectId = $resultIndex->get('FaceRecords')[0]['Face']['ExternalImageId'];
+
+        /** @var Mockery $rekognitionClientMock */
+        $rekognitionClientMock = $this->mock(RekognitionClient::class,
+            function ($mock) use ($collectionName, $subjectId, $file, $resultDetect, $resultIndex) {
+                $mock->shouldReceive('detectFaces')
+                    ->with(
+                        [
+                            'Attributes' => AwsFaceMatchService::IMAGE_INDEXING_RESPONSE_ATTRIBUTE,
+                            'Image'      => [
+                                'Bytes' => base64_decode($file),
+                            ],
+                        ]
+                    )
+                    ->andReturn($resultDetect)
+                ;
+
+                $mock->shouldReceive('indexFaces')
+                    ->with(
+                        [
+                            'CollectionId'        => $collectionName,
+                            'DetectionAttributes' => AwsFaceMatchService::IMAGE_INDEXING_RESPONSE_ATTRIBUTE,
+                            'ExternalImageId'     => $subjectId,
+                            'Image'               => [
+                                'Bytes' => base64_decode($file),
+                            ],
+                            'MaxFaces'      => AwsFaceMatchService::MAXIMUM_FACES_TO_PROCESS,
+                            'QualityFilter' => AwsFaceMatchService::IMAGE_FILTER_PROCESSING_LEVEL,
+                        ]
+                    )
+                    ->andReturn($resultIndex)
+                ;
+            });
+
+        $this->mock('alias:'.AwsRekognitionClientFactory::class, function ($mock) use ($rekognitionClientMock) {
+            $mock->shouldReceive('instantiate')
+                ->andReturn($rekognitionClientMock)
+            ;
+        });
+
+        /** @var AwsFaceMatchFaceService $service */
+        $service = resolve(AwsFaceMatchFaceService::class);
+
+        // When
+        $response = $service->indexFace($collectionName, $subjectId, $file, true);
+
+        // Then
+        $this->assertEquals($subjectId, $response->get('FaceRecords')[0]['Face']['ExternalImageId']);
+    }
+
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @throws Exception
+     */
     public function an_remote_image_can_be_indexed()
     {
         // Given
@@ -288,7 +362,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function an_matching_image_is_recognized()
+    public function a_matching_image_is_recognized()
     {
         // Given
         /** @var string $collectionName */

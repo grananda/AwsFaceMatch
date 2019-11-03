@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Bus;
 use Aws\Rekognition\RekognitionClient;
 use Grananda\AwsFaceMatch\Tests\TestCase;
 use Grananda\AwsFaceMatch\Tests\Models\Entity;
+use Grananda\AwsFaceMatch\Tests\Models\BinEntity;
 use Grananda\AwsFaceMatch\Tests\Models\OtherEntity;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 use Grananda\AwsFaceMatch\Commands\FaceMatchModelIndex;
@@ -52,10 +53,10 @@ class FaceMatchModelIndexTest extends TestCase
             'media_url' => __DIR__.'/../../assets/image1a.jpg',
         ]);
 
-        OtherEntity::create([
+        BinEntity::create([
             'uuid'      => $this->faker->uuid,
             'name'      => $this->faker->name,
-            'media_url' => __DIR__.'/../../assets/image1a.jpg',
+            'media_url' => file_get_contents(__DIR__.'/../../assets/image1a.jpg'),
         ]);
 
         /** @var Result $resultList */

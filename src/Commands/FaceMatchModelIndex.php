@@ -75,8 +75,11 @@ class FaceMatchModelIndex extends Command
                 $this->awsFaceMatchCollectionService->initializeCollection($collection);
 
                 foreach ($records as $record) {
+                    /** @var bool $binary */
+                    $binary = $record->isBinary();
+
                     $this->awsFaceMatchFaceService->indexFace($collection, $record->getIdentifierValue(),
-                        $record->getMediaFieldValue());
+                        $record->getMediaFieldValue(), $binary);
                 }
             }
         }

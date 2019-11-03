@@ -38,8 +38,6 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
 
-        $collectionService->purgeCollections();
-
         /** @var AwsFaceMatchFaceService $service */
         $service = resolve(AwsFaceMatchFaceService::class);
 
@@ -74,8 +72,6 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
 
-        $collectionService->purgeCollections();
-
         /** @var AwsFaceMatchFaceService $service */
         $service = resolve(AwsFaceMatchFaceService::class);
 
@@ -83,6 +79,40 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
         // When
         $response = $service->indexFace($collectionName, $subjectId, $file);
+
+        // Then
+        $this->assertEquals($subjectId, $response->get('FaceRecords')[0]['Face']['ExternalImageId']);
+
+        $collectionService->purgeCollections();
+    }
+
+    /**
+     * @test
+     *
+     * @throws Exception
+     */
+    public function an_binary_image_can_be_indexed()
+    {
+        // Given
+        /** @var string $collectionName */
+        $collectionName = $this->faker->word;
+
+        /** @var string $subjectId */
+        $subjectId = $this->faker->uuid;
+
+        /** @var string $file */
+        $file = base64_encode(file_get_contents(__DIR__.'/../../assets/image1a.jpg'));
+
+        /** @var AwsFaceMatchCollectionService $collectionService */
+        $collectionService = resolve(AwsFaceMatchCollectionService::class);
+
+        /** @var AwsFaceMatchFaceService $service */
+        $service = resolve(AwsFaceMatchFaceService::class);
+
+        $collectionService->initializeCollection($collectionName);
+
+        // When
+        $response = $service->indexFace($collectionName, $subjectId, $file, true);
 
         // Then
         $this->assertEquals($subjectId, $response->get('FaceRecords')[0]['Face']['ExternalImageId']);
@@ -107,8 +137,6 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
-
-        $collectionService->purgeCollections();
 
         /** @var AwsFaceMatchFaceService $service */
         $service = resolve(AwsFaceMatchFaceService::class);
@@ -141,8 +169,6 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
-
-        $collectionService->purgeCollections();
 
         /** @var AwsFaceMatchFaceService $service */
         $service = resolve(AwsFaceMatchFaceService::class);
@@ -178,8 +204,6 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
-
-        $collectionService->purgeCollections();
 
         /** @var AwsFaceMatchFaceService $service */
         $service = resolve(AwsFaceMatchFaceService::class);
@@ -217,8 +241,6 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
-
-        $collectionService->purgeCollections();
 
         /** @var AwsFaceMatchFaceService $service */
         $service = resolve(AwsFaceMatchFaceService::class);
