@@ -1,7 +1,7 @@
 
   
 # AWS Laravel Face Match  (BETA)  
-This component integrates face recognition to conventional Laravel models such as users with avatar images. This package compares a single face image against an indexed collection of images and returns a matching model with a precision greater than 80%.  
+This component integrates face recognition to conventional Laravel models such as users with avatar images. This package compares a single face image against an indexed collection of images and returns a matching model with an accuracy score greater than 80%.  
   
 This component uses the  [AWS Rekogniton](https://aws.amazon.com/es/rekognition/) engine. Please review the site for credentials setup and prices.
 
@@ -35,24 +35,28 @@ Also, in the `$aliases` array element, add the following available facades for t
   ## Setup your Eloquent models  
 Laravel Face Match can recognize people from different models. For example, if you have models for clients and employees, you can request an image match against any of those models.
 
-To start using this package, you must have the model(s) registered in the facematch configuration file as following:
+To start using this package, you must have the model(s) registered in the face match configuration file as displayed below:
 
 ``` php
 'recognize' => [  
     Employee::class => [  
         'collection' => 'entity',  
         'identifier' => 'uuid,',  
-        'media_file' => 'media_url',  
+        'media' => [
+	        'field'  => 'avatar_image',
+	        'binary' => false,
+	    ],
     ],
 ],
 ```
 
- Where every element of the `recognize` array element correspond to an existing class. Each element key must match the model class name. Additionally, the elements must be completed as followed per each of the added models:
+ Where every element of the `recognize` array element correspond to an existing model class. Each element key must match the model class name. Additionally, the elements must be completed as followed per each of the used models:
  
 
- - **Collection**:  wherein AWS will the avatar images and user references be indexed. If none, a combination of the model `namespace` and `className` will be taken as the default collection name.
- - **Media Field**: determines which field in the model database will the avatar image URL be stored.
+ - **Collection**:  wherein AWS will the avatar images and user references be indexed. If none, a combination of the model `namespace` and `className` will be used as the default collection name.
  - **Identifier**: which unique field in the model database will be used to identify the record once a face match occurs. It is recommended to use a **UUID** field for such a purpose.  
+ - **Field**: determines which field in the model database will the face image URL be stored.
+ - **Binary**: defines if the field that stores the image information is a binary or blob field. Default is `false`.
     
 To make a model suitable for face recognition, you must add the `FacialRecognition` trait to your models as illustrated below.    
     
@@ -69,28 +73,30 @@ use Grananda\AwsFaceMatch\Traits\FacialRecognition;
      protected $fillable = [
         'name',
         'uuid',
-        'media_url',
+        'avatar_image',
     ];   
 } 
 ```    
-In addition, both the `mediaField` and `identifier` fields should be included in the model `fillable` array as well as in your database migrations if necessary.  
+In addition, both the `field` and `identifier` fields should be included in the model `fillable` array as well as in your database migrations if necessary.  
   
 You can add the face match functionality to as many models as you wish as far as they do not share the same collection.  
   
-No AWS S3 Bucket it needed but could be used for storing your model images. All that is needed is an image URL.  
+No AWS S3 Bucket it needed but could be used for storing your model images. All that is needed is an image URL or a binary database record with the image data.  
   
 The system only accepts **single face images** when indexing an entity for future recognition.  
    
  ## How to Use it  
-When a model using the `FacialRecognition` trait creates a new object, the avatar image is stored in the AWS Rekognition services along with the record identifier. The same occurs when the record is updated with a **different** image URL. No Rekognition index action will tale place if the record lacks media URL when saving the item.  
+When a model using the `FacialRecognition` trait creates a new object, the avatar image is stored in the AWS Rekognition services along with the record identifier. The same occurs when the record is updated with a **different** image URL. No Rekognition index action will take place if the record lacks a media URL or data when saving the item.  
   
 ### Identifying models from an image  
-If we wish to find a model in our system that may match a specif image, we can use the following command:  
+Use the following command If you wish to find a model that may match a specif image:
   
 ```php 
 Employee::faceMatch('path/or/url/to/image.png');  
 ```  
 Where `Employee` can be replaced by any other model using the face match feature. If there is a match, the command will return the model object corresponding to the given image or `false` otherwise.  
+
+Although the system can index images from binary database fields, the match or recognition process must use a file system based stored image path to function. Pure binary comparison is not yet supported. Please help us improve this component by providing a valid use case for this scenario.
   
 ### Cleaning up  
 The folowing command will remove all images from a model collection. Please use it wisely.  

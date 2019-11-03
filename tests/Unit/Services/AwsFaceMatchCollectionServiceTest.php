@@ -24,6 +24,9 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
     /**
      * @test
      *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
      * @throws Exception
      */
     public function a_collection_can_be_created()
@@ -70,6 +73,9 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function can_remove_all_collections()
     {
@@ -112,6 +118,9 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function cannot_remove_empty_collection_list()
     {
@@ -154,6 +163,9 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function can_remove_a_single_collection()
     {
@@ -195,6 +207,9 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      *
      * @throws Exception
      */
@@ -238,6 +253,9 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
 
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      *
      * @throws Exception
      */

@@ -8,15 +8,27 @@ use Illuminate\Support\Facades\Bus;
 use Aws\Rekognition\RekognitionClient;
 use Grananda\AwsFaceMatch\Tests\TestCase;
 use Grananda\AwsFaceMatch\Tests\Models\Entity;
+use Grananda\AwsFaceMatch\Tests\Models\BinEntity;
 use Grananda\AwsFaceMatch\Tests\Models\OtherEntity;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 use Grananda\AwsFaceMatch\Commands\FaceMatchModelIndex;
 use Grananda\AwsFaceMatch\Services\AwsRekognitionClientFactory;
 
+/**
+ * Class FaceMatchModelIndexTest.
+ *
+ * @group unit
+ * @covers \Grananda\AwsFaceMatch\Commands\FaceMatchModelIndex
+ *
+ * @package Grananda\AwsFaceMatch\Tests\Unit\Commands
+ */
 class FaceMatchModelIndexTest extends TestCase
 {
     /**
      * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
      */
     public function all_records_from_different_models_are_indexed()
     {
@@ -41,10 +53,10 @@ class FaceMatchModelIndexTest extends TestCase
             'media_url' => __DIR__.'/../../assets/image1a.jpg',
         ]);
 
-        OtherEntity::create([
+        BinEntity::create([
             'uuid'      => $this->faker->uuid,
             'name'      => $this->faker->name,
-            'media_url' => __DIR__.'/../../assets/image1a.jpg',
+            'media_url' => file_get_contents(__DIR__.'/../../assets/image1a.jpg'),
         ]);
 
         /** @var Result $resultList */
@@ -64,12 +76,12 @@ class FaceMatchModelIndexTest extends TestCase
             function ($mock) use ($resultCreate, $resultList, $resultDetect, $resultIndex) {
                 $mock->shouldReceive('createCollection')
                     ->andReturn($resultCreate)
-                    ->times(2)
+                    ->times(3)
                 ;
 
                 $mock->shouldReceive('listCollections')
                     ->andReturn($resultList)
-                    ->times(2)
+                    ->times(3)
                 ;
 
                 $mock->shouldReceive('detectFaces')

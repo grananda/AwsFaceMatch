@@ -20,5 +20,5 @@ jobs:
         run: composer cs:check
 
       - name: Laravel PHPUnit
-        run: composer test
+        run: composer test:unit
 
