@@ -345,4 +345,73 @@ class FaceMatchTraitTest extends TestCase
 
         $this->assertEquals(200, $response->get('StatusCode'));
     }
+
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function a_record_is_forgotten()
+    {
+        // Given
+        Bus::fake(
+            [
+                StoreEntityFaceImage::class,
+            ]
+        );
+
+        /** @var Result $resultDelete */
+        $resultDelete = new Result($this->loadResponse('face_delete_success'));
+
+        /** @var string $faceId */
+        $faceId = $resultDelete->get('DeletedFaces')[0];
+
+        /** @var Entity $model */
+        $model = Entity::create([
+            'uuid'      => $this->faker->uuid,
+            'name'      => $this->faker->name,
+            'media_url' => __DIR__.'/../../assets/image1a.jpg',
+        ]);
+
+        /** @var string $collectionName */
+        $collectionName = $model->getCollection();
+
+        /** @var Mockery $rekognitionClientMock */
+        $rekognitionClientMock = $this->mock(RekognitionClient::class,
+            function ($mock) use (
+                $faceId,
+                $collectionName,
+                $resultDelete
+            ) {
+                $mock->shouldReceive('deleteFaces')
+                    ->with(
+                        [
+                            'CollectionId' => $collectionName,
+                            'FaceIds'      => [
+                                $faceId,
+                            ],
+                        ]
+                    )
+                    ->andReturn($resultDelete)
+                    ->times(1)
+                ;
+            });
+
+        $this->mock('alias:'.AwsRekognitionClientFactory::class, function ($mock) use ($rekognitionClientMock) {
+            $mock->shouldReceive('instantiate')
+                ->andReturn($rekognitionClientMock)
+            ;
+        });
+
+        // When
+        $response = Entity::facesForget([
+            $faceId,
+        ]);
+
+        // Then
+        Bus::assertDispatched(StoreEntityFaceImage::class, 1);
+
+        $this->assertTrue(in_array($faceId, $response));
+    }
 }

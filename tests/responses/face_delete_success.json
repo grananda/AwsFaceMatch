@@ -1,0 +1,19 @@
+{
+    "DeletedFaces": ["a5393e97-c88b-4528-b9e5-fc0b6340db7d"],
+    "@metadata": {
+        "statusCode": 200,
+        "effectiveUri": "https:\/\/rekognition.eu-central-1.amazonaws.com",
+        "headers": {
+            "content-type": "application\/x-amz-json-1.1",
+            "date": "Sun, 03 Nov 2019 19:22:50 GMT",
+            "x-amzn-requestid": "2ea0fc2e-d29f-4b73-ae62-bb3229689e93",
+            "content-length": "19",
+            "connection": "keep-alive"
+        },
+        "transferStats": {
+            "http": [
+                []
+            ]
+        }
+    }
+}

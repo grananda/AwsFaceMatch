@@ -115,4 +115,33 @@ class FaceMatchTraitTest extends TestCase
 
         Entity::purgeCollection();
     }
+
+    /**
+     * @test
+     */
+    public function entity_can_be_removed()
+    {
+        // Given
+        /** @var string $uuid */
+        $uuid = $this->faker->uuid;
+
+        /** @var string $file */
+        $file = __DIR__.'/../../assets/image1a.jpg';
+
+        Entity::purgeCollection();
+
+        Entity::create([
+            'uuid'      => $uuid,
+            'name'      => $this->faker->name,
+            'media_url' => $file,
+        ]);
+
+        // When
+        $response = Entity::facesForget([$faceId]);
+
+        // Then
+        $this->assertTrue(in_array($faceId, $response));
+
+        Entity::purgeCollection();
+    }
 }

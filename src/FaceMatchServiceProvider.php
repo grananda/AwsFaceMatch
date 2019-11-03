@@ -19,6 +19,8 @@ class FaceMatchServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->setUpConfig();
+
+        $this->loadMigrationsFrom(__DIR__.'/Migrations');
     }
 
     /**

@@ -125,6 +125,20 @@ trait FacialRecognition
         return $entity::where($entity->getIdentifier(), $identifier)->first();
     }
 
+    public static function facesForget(array $faceIds)
+    {
+        /** @var string $class */
+        $class = self::class;
+
+        /** @var FacialRecognition $entity */
+        $entity = new $class();
+
+        /** @var Result $result */
+        $result = FaceMatch::forgetFaces($entity->getCollection(), $faceIds);
+
+        return $result->get('DeletedFaces');
+    }
+
     /**
      * Clears model entire collection.
      *
