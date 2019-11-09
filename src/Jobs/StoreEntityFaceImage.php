@@ -93,7 +93,7 @@ class StoreEntityFaceImage implements ShouldQueue
         /** @var bool|Result $collection */
         $collectionResponse = $awsFaceMatchCollectionService->initializeCollection($this->collection);
 
-        if ($collectionResponse === true) {
+        if ($collectionResponse === false) {
             $collection = Collection::where('collection_id', $this->collection)->firstOrFail();
         } else {
             $collection = Collection::create(
@@ -106,8 +106,7 @@ class StoreEntityFaceImage implements ShouldQueue
         }
 
         /** @var false|Result $response */
-        $response = $awsFaceMatchFaceService->indexFace($this->collection, $this->subjectId, $this->file,
-            $this->binary);
+        $response = $awsFaceMatchFaceService->indexFace($this->collection, $this->subjectId, $this->file, $this->binary);
 
         if ($response) {
             /** @var array $item */

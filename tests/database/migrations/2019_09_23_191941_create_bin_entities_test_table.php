@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateFaceMatchEntitiesTable extends Migration
+class CreateBinEntitiesTestTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,17 +13,11 @@ class CreateFaceMatchEntitiesTable extends Migration
      */
     public function up()
     {
-        Schema::create('face_match_entities', function (Blueprint $table) {
+        Schema::create('bin_entities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->nullable();
-            $table->unsignedBigInteger('collection_id')->nullable(false);
-            $table->string('face_id')->nullable(false);
-            $table->string('entity_ref')->nullable(false);
-            $table->timestamps();
-        });
-
-        Schema::table('face_match_entities', function (Blueprint $table) {
-            $table->foreign('collection_id')->references('id')->on('face_match_collections')->onDelete('cascade');
+            $table->string('name')->nullable();
+            $table->binary('media_url')->nullable();
         });
     }
 
@@ -34,6 +28,6 @@ class CreateFaceMatchEntitiesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('face_match_entities');
+        Schema::dropIfExists('bin_entities');
     }
 }

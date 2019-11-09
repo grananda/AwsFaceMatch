@@ -25,7 +25,7 @@ final class AwsFaceMatchCollectionService extends AwsFaceMatchService
             );
         }
 
-        return true;
+        return false;
     }
 
     /**
