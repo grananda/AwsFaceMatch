@@ -26,10 +26,10 @@ trait FacialRecognition
         });
 
         static::deleted(function (self $model) {
-            RemoveEntityFaceImage::dispatch([
+            RemoveEntityFaceImage::dispatch(
                 $model->getCollection(),
                 $model->getIdentifierValue(),
-            ]);
+            );
         });
     }
 

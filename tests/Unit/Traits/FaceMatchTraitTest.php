@@ -11,6 +11,7 @@ use Grananda\AwsFaceMatch\Tests\Models\Entity;
 use Grananda\AwsFaceMatch\Tests\Models\BinEntity;
 use Grananda\AwsFaceMatch\Tests\Models\OtherEntity;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
+use Grananda\AwsFaceMatch\Jobs\RemoveEntityFaceImage;
 use Grananda\AwsFaceMatch\Services\AwsFaceMatchFaceService;
 use Grananda\AwsFaceMatch\Services\AwsRekognitionClientFactory;
 
@@ -122,6 +123,35 @@ class FaceMatchTraitTest extends TestCase
 
         // Then
         Bus::assertNotDispatched(StoreEntityFaceImage::class);
+    }
+
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     */
+    public function job_is_dispatched_when_record_is_removed()
+    {
+        // Given
+        Bus::fake([
+            StoreEntityFaceImage::class,
+            RemoveEntityFaceImage::class,
+        ]);
+
+        /** @var Entity $model */
+        $model = Entity::create([
+            'uuid'      => $this->faker->uuid,
+            'name'      => $this->faker->name,
+            'media_url' => __DIR__.'/../../assets/image1a.jpg',
+        ]);
+
+        // When
+        $model->delete();
+
+        // Then
+        Bus::assertDispatched(StoreEntityFaceImage::class, 1);
+        Bus::assertDispatched(RemoveEntityFaceImage::class, 1);
     }
 
     /**
