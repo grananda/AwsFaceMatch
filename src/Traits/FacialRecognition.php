@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 use Grananda\AwsFaceMatch\Facades\FaceMatch;
 use Grananda\AwsFaceMatch\Facades\FaceCollection;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
+use Grananda\AwsFaceMatch\Jobs\RemoveEntityFaceImage;
 
 trait FacialRecognition
 {
@@ -22,6 +23,13 @@ trait FacialRecognition
                     $model->isBinary()
                 );
             }
+        });
+
+        static::deleted(function (self $model) {
+            RemoveEntityFaceImage::dispatch([
+                $model->getCollection(),
+                $model->getIdentifierValue(),
+            ]);
         });
     }
 
@@ -126,6 +134,13 @@ trait FacialRecognition
         return $entity::where($entity->getIdentifier(), $identifier)->first();
     }
 
+    /**
+     * Removes face indx from remote collection.
+     *
+     * @param array $faceIds
+     *
+     * @return mixed|null
+     */
     public static function facesForget(array $faceIds)
     {
         /** @var string $class */

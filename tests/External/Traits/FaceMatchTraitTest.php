@@ -3,7 +3,9 @@
 namespace Grananda\AwsFaceMatch\Tests\External\Traits;
 
 use Grananda\AwsFaceMatch\Tests\TestCase;
+use Grananda\AwsFaceMatch\Models\Collection;
 use Grananda\AwsFaceMatch\Tests\Models\Entity;
+use Grananda\AwsFaceMatch\Models\FaceMatchEntity;
 use Grananda\AwsFaceMatch\Tests\Models\BinEntity;
 
 /**
@@ -47,6 +49,9 @@ class FaceMatchTraitTest extends TestCase
         // Then
         $this->assertEquals($model->uuid, $response->uuid);
 
+        $this->assertCount(1, Collection::get());
+        $this->assertCount(1, FaceMatchEntity::get());
+
         Entity::purgeCollection();
     }
 
@@ -80,6 +85,9 @@ class FaceMatchTraitTest extends TestCase
         // Then
         $this->assertEquals($model->uuid, $response->uuid);
 
+        $this->assertCount(1, Collection::get());
+        $this->assertCount(1, FaceMatchEntity::get());
+
         Entity::purgeCollection();
     }
 
@@ -100,8 +108,7 @@ class FaceMatchTraitTest extends TestCase
 
         Entity::purgeCollection();
 
-        /** @var Entity $model */
-        $model = Entity::create([
+        Entity::create([
             'uuid'      => $uuid,
             'name'      => $this->faker->name,
             'media_url' => $file1,
@@ -112,6 +119,9 @@ class FaceMatchTraitTest extends TestCase
 
         // Then
         $this->assertFalse($response);
+
+        $this->assertCount(1, Collection::get());
+        $this->assertCount(1, FaceMatchEntity::get());
 
         Entity::purgeCollection();
     }
@@ -136,11 +146,17 @@ class FaceMatchTraitTest extends TestCase
             'media_url' => $file,
         ]);
 
+        /** @var FaceMatchEntity $face */
+        $face = FaceMatchEntity::get()->first();
+
         // When
-        $response = Entity::facesForget([$faceId]);
+        $response = Entity::facesForget([$face->face_id]);
 
         // Then
-        $this->assertTrue(in_array($faceId, $response));
+        $this->assertTrue(in_array($face->face_id, $response));
+
+        $this->assertCount(1, Collection::get());
+        $this->assertCount(1, FaceMatchEntity::get());
 
         Entity::purgeCollection();
     }
