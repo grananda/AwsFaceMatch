@@ -5,6 +5,7 @@ namespace Grananda\AwsFaceMatch\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Collection;
 use Grananda\AwsFaceMatch\Traits\FacialRecognition;
+use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 use Grananda\AwsFaceMatch\Services\AwsFaceMatchFaceService;
 use Grananda\AwsFaceMatch\Services\AwsFaceMatchCollectionService;
 
@@ -72,14 +73,17 @@ class FaceMatchModelIndex extends Command
                 /** @var string $collection */
                 $collection = $model->getCollection();
 
-                $this->awsFaceMatchCollectionService->initializeCollection($collection);
-
                 foreach ($records as $record) {
                     /** @var bool $binary */
                     $binary = $record->isBinary();
 
-                    $this->awsFaceMatchFaceService->indexFace($collection, $record->getIdentifierValue(),
-                        $record->getMediaFieldValue(), $binary);
+                    StoreEntityFaceImage::dispatch(
+                        $collection,
+                        $record->getIdentifierValue(),
+                        $record->getMediaFieldValue(),
+                        get_class($model),
+                        $binary
+                    );
                 }
             }
         }

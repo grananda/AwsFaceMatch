@@ -3,6 +3,7 @@
 namespace Grananda\AwsFaceMatch\Tests\External;
 
 use Exception;
+use Aws\Rekognition\RekognitionClient;
 use Grananda\AwsFaceMatch\Tests\TestCase;
 use Grananda\AwsFaceMatch\Services\AwsFaceMatchFaceService;
 use Grananda\AwsFaceMatch\Services\AwsFaceMatchCollectionService;
@@ -254,6 +255,44 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
         // Then
         $this->assertEmpty($response->get('FaceMatches'));
+
+        $collectionService->purgeCollections();
+    }
+
+    /**
+     * @test
+     */
+    public function a_record_is_forgotten()
+    {
+        // Given
+        /** @var string $collectionName */
+        $collectionName = $this->faker->word;
+
+        /** @var string $subjectId */
+        $subjectId = $this->faker->uuid;
+
+        /** @var string $file */
+        $file = __DIR__.'/../../assets/image1a.jpg';
+
+        /** @var AwsFaceMatchCollectionService $collectionService */
+        $collectionService = resolve(AwsFaceMatchCollectionService::class);
+
+        /** @var AwsFaceMatchFaceService $service */
+        $service = resolve(AwsFaceMatchFaceService::class);
+
+        $collectionService->initializeCollection($collectionName);
+
+        $face = $service->indexFace($collectionName, $subjectId, $file);
+
+        // When
+        $response = $service->forgetFaces($collectionName,
+            [
+                $face->get('FaceRecords')[0]['Face']['FaceId'],
+            ]
+        );
+
+        // Then
+        $this->assertEquals($face->get('FaceRecords')[0]['Face']['FaceId'], $response->get('DeletedFaces')[0]);
 
         $collectionService->purgeCollections();
     }

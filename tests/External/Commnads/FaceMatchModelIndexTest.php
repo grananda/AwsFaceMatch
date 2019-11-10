@@ -2,12 +2,12 @@
 
 namespace Grananda\AwsFaceMatch\Tests\External\Commands;
 
-use Illuminate\Support\Facades\Bus;
+use Illuminate\Support\Facades\DB;
 use Grananda\AwsFaceMatch\Tests\TestCase;
+use Grananda\AwsFaceMatch\Models\Collection;
 use Grananda\AwsFaceMatch\Tests\Models\Entity;
+use Grananda\AwsFaceMatch\Models\FaceMatchEntity;
 use Grananda\AwsFaceMatch\Tests\Models\BinEntity;
-use Grananda\AwsFaceMatch\Tests\Models\OtherEntity;
-use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 use Grananda\AwsFaceMatch\Commands\FaceMatchModelIndex;
 use Grananda\AwsFaceMatch\Services\AwsFaceMatchCollectionService;
 
@@ -26,28 +26,28 @@ class FaceMatchModelIndexTest extends TestCase
      */
     public function all_records_from_different_models_are_indexed()
     {
-        Bus::fake(StoreEntityFaceImage::class);
-
         // Given
-        /** @var Entity $model1 */
-        $model1 = Entity::create([
-            'uuid'      => $this->faker->uuid,
-            'name'      => $this->faker->name,
-            'media_url' => __DIR__.'/../../assets/image1a.jpg',
-        ]);
+        /** @var string $modelUuid1 */
+        $modelUuid1 = $this->faker->uuid;
 
-        OtherEntity::create([
-            'uuid'      => $this->faker->uuid,
-            'name'      => $this->faker->name,
-            'media_url' => __DIR__.'/../../assets/image2a.jpg',
-        ]);
+        /** @var string $modelWord1 */
+        $modelWord1 = $this->faker->word;
 
-        /** @var BinEntity $model3 */
-        $model3 = BinEntity::create([
-            'uuid'      => $this->faker->uuid,
-            'name'      => $this->faker->name,
-            'media_url' => file_get_contents(__DIR__.'/../../assets/image2a.jpg'),
-        ]);
+        /** @var string $modelMedia1 */
+        $modelMedia1 = __DIR__.'/../../assets/image1a.jpg';
+
+        DB::insert('INSERT INTO entities (uuid, name, media_url) VALUES (?, ?, ?)', [$modelUuid1, $modelWord1, $modelMedia1]);
+
+        /** @var string $modelUuid2 */
+        $modelUuid2 = $this->faker->uuid;
+
+        /** @var string $modelWord2 */
+        $modelWord2 = $this->faker->word;
+
+        /** @var string $modelMedia2 */
+        $modelMedia2 = file_get_contents(__DIR__.'/../../assets/image1a.jpg');
+
+        DB::insert('INSERT INTO bin_entities (uuid, name, media_url) VALUES (?, ?, ?)', [$modelUuid2, $modelWord2, $modelMedia2]);
 
         /** @var AwsFaceMatchCollectionService $collectionService */
         $collectionService = resolve(AwsFaceMatchCollectionService::class);
@@ -61,15 +61,14 @@ class FaceMatchModelIndexTest extends TestCase
         $command->handle();
 
         $response1 = Entity::faceMatch(__DIR__.'/../../assets/image1b.jpg');
-        $response2 = OtherEntity::faceMatch(__DIR__.'/../../assets/image1b.jpg');
-        $response3 = BinEntity::faceMatch(__DIR__.'/../../assets/image2a.jpg');
+        $response2 = BinEntity::faceMatch(__DIR__.'/../../assets/image1a.jpg');
 
         // Then
-        Bus::assertDispatched(StoreEntityFaceImage::class, 3);
+        $this->assertEquals($response1->uuid, $modelUuid1);
+        $this->assertEquals($response2->uuid, $modelUuid2);
 
-        $this->assertEquals($response1->uuid, $model1->uuid);
-        $this->assertFalse($response2);
-        $this->assertEquals($response3->uuid, $model3->uuid);
+        $this->assertCount(2, Collection::get());
+        $this->assertCount(2, FaceMatchEntity::get());
 
         $collectionService->purgeCollections();
     }

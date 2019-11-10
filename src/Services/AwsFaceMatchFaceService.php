@@ -70,6 +70,24 @@ final class AwsFaceMatchFaceService extends AwsFaceMatchService
     }
 
     /**
+     * Removes faces from collection.
+     *
+     * @param string $collection
+     * @param array  $faces
+     *
+     * @return Result
+     */
+    public function forgetFaces(string $collection, array $faces)
+    {
+        return $this->client->deleteFaces(
+            [
+                'CollectionId' => $collection,
+                'FaceIds'      => $faces,
+            ]
+        );
+    }
+
+    /**
      * Detects if an image contains a single face.
      *
      * @param string $file

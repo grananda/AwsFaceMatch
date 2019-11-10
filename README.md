@@ -32,6 +32,11 @@ Also, in the `$aliases` array element, add the following available facades for t
 'FaceMatch' => Grananda\AwsFaceMatch\Facades\FaceMatch::class,
 'FaceCollection' => Grananda\AwsFaceMatch\Facades\FaceCollection::class,  
 ```  
+Finally, run thepackage migrations that will create tables where indexed information will be stored.
+```php  
+php artisan migrate 
+``` 
+
   ## Setup your Eloquent models  
 Laravel Face Match can recognize people from different models. For example, if you have models for clients and employees, you can request an image match against any of those models.
 
@@ -87,6 +92,8 @@ The system only accepts **single face images** when indexing an entity for futur
    
  ## How to Use it  
 When a model using the `FacialRecognition` trait creates a new object, the avatar image is stored in the AWS Rekognition services along with the record identifier. The same occurs when the record is updated with a **different** image URL. No Rekognition index action will take place if the record lacks a media URL or data when saving the item.  
+
+Wiselike, all stored indexed information is removed from the AWS when a model is locally removed.
   
 ### Identifying models from an image  
 Use the following command If you wish to find a model that may match a specif image:
@@ -98,19 +105,25 @@ Where `Employee` can be replaced by any other model using the face match feature
 
 Although the system can index images from binary database fields, the match or recognition process must use a file system based stored image path to function. Pure binary comparison is not yet supported. Please help us improve this component by providing a valid use case for this scenario.
   
+### Forgetting an Image
+Use the following comand to remove a local record from the remote AWS Rekognition system. This feature can be useful when a user requests to be removed from the face recognition system.
+```php 
+Employee::faceForget($object);  
+```
+
 ### Cleaning up  
-The folowing command will remove all images from a model collection. Please use it wisely.  
+The following command will remove all images from a model collection. Please use it wisely.  
 ```php 
 Employee::purgeCollection();  
 ```
 ### Mass Indexing  
 To indexing already existing data, run the following command from the console:
+
 ```sh 
 php artisan facematch:index
 ```
   
 ## Comming Soon  
-- Allow for specific indexed models to be removed from a collection.  
 - Manually specify the accuracy threshold when detecting matches.  
   
 Please feel free to comment and make requests.

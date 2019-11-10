@@ -32,14 +32,14 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
     public function a_collection_can_be_created()
     {
         // Given
-        /** @var string $collectionName */
-        $collectionName = $this->faker->word;
-
         /** @var Result $resultList */
         $resultList = new Result($this->loadResponse('collection_list_success'));
 
         /** @var Result $resultCreate */
         $resultCreate = new Result($this->loadResponse('collection_create_success'));
+
+        /** @var string $collectionName */
+        $collectionName = 'new-collection';
 
         /** @var Mockery $rekognitionClientMock */
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
