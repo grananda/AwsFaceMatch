@@ -16,6 +16,8 @@ class FaceMatchEntity extends Model
         });
     }
 
+    protected $table = 'face_match_entities';
+
     protected $dates = [
         'created_at',
         'updated_at',
@@ -30,6 +32,7 @@ class FaceMatchEntity extends Model
         'collection_id',
         'face_id',
         'entity_ref',
+        'image_id',
     ];
 
     /**

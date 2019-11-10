@@ -16,6 +16,8 @@ class Collection extends Model
         });
     }
 
+    protected $table = 'face_match_collections';
+
     protected $dates = [
         'created_at',
         'updated_at',

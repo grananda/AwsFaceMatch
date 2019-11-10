@@ -6,6 +6,7 @@ use Mockery;
 use Aws\Result;
 use Aws\Rekognition\RekognitionClient;
 use Grananda\AwsFaceMatch\Tests\TestCase;
+use Grananda\AwsFaceMatch\Models\Collection;
 use Grananda\AwsFaceMatch\Tests\Models\Entity;
 use Grananda\AwsFaceMatch\Tests\Models\BinEntity;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
@@ -122,11 +123,25 @@ class StoreEntityFaceImageTest extends TestCase
         StoreEntityFaceImage::dispatch(
             $model->getCollection(),
             $model->getIdentifierValue(),
-            $model->getMediaFieldValue()
+            $model->getMediaFieldValue(),
+            get_class($model)
         );
 
         // Then
-        $this->assertTrue(true);
+        $this->assertDatabaseHas('face_match_collections', [
+            'collection_arn' => $resultCreate->get('CollectionArn'),
+            'collection_id'  => $collectionName,
+            'entity'         => get_class($model),
+        ]);
+
+        $collection = Collection::where('collection_id', $collectionName)->first();
+
+        $this->assertDatabaseHas('face_match_entities', [
+            'collection_id' => $collection->id,
+            'face_id'       => $resultIndex->get('FaceRecords')[0]['Face']['FaceId'],
+            'entity_ref'    => $model->getIdentifierValue(),
+            'image_id'      => $resultIndex->get('FaceRecords')[0]['Face']['ImageId'],
+        ]);
     }
 
     /**
@@ -230,10 +245,24 @@ class StoreEntityFaceImageTest extends TestCase
             $model->getCollection(),
             $model->getIdentifierValue(),
             $model->getMediaFieldValue(),
+            get_class($model),
             true
         );
 
         // Then
-        $this->assertTrue(true);
+        $this->assertDatabaseHas('face_match_collections', [
+            'collection_arn' => $resultCreate->get('CollectionArn'),
+            'collection_id'  => $collectionName,
+            'entity'         => get_class($model),
+        ]);
+
+        $collection = Collection::where('collection_id', $collectionName)->first();
+
+        $this->assertDatabaseHas('face_match_entities', [
+            'collection_id' => $collection->id,
+            'face_id'       => $resultIndex->get('FaceRecords')[0]['Face']['FaceId'],
+            'entity_ref'    => $model->getIdentifierValue(),
+            'image_id'      => $resultIndex->get('FaceRecords')[0]['Face']['ImageId'],
+        ]);
     }
 }

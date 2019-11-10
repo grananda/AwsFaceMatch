@@ -154,11 +154,7 @@ class FaceMatchTraitTest extends TestCase
     public function entity_id_is_returned_when_requesting_a_match()
     {
         // Given
-        Bus::fake(
-            [
-                StoreEntityFaceImage::class,
-            ]
-        );
+        Bus::fake(StoreEntityFaceImage::class);
 
         /** @var Result $resultMatch */
         $resultMatch = new Result($this->loadResponse('face_match_success'));
@@ -294,11 +290,7 @@ class FaceMatchTraitTest extends TestCase
     public function a_collection_is_removed()
     {
         // Given
-        Bus::fake(
-            [
-                StoreEntityFaceImage::class,
-            ]
-        );
+        Bus::fake(StoreEntityFaceImage::class);
 
         /** @var Result $resultMatch */
         $resultDelete = new Result($this->loadResponse('collection_delete_success'));
@@ -355,11 +347,7 @@ class FaceMatchTraitTest extends TestCase
     public function a_record_is_forgotten()
     {
         // Given
-        Bus::fake(
-            [
-                StoreEntityFaceImage::class,
-            ]
-        );
+        Bus::fake(StoreEntityFaceImage::class);
 
         /** @var Result $resultDelete */
         $resultDelete = new Result($this->loadResponse('face_delete_success'));

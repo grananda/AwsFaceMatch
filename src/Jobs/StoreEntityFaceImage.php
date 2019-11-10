@@ -96,7 +96,10 @@ class StoreEntityFaceImage implements ShouldQueue
         if ($collectionResponse === false) {
             $collection = Collection::where('collection_id', $this->collection)->firstOrFail();
         } else {
-            $collection = Collection::create(
+            $collection = Collection::updateOrCreate(
+                [
+                    'collection_arn' => $collectionResponse->get('CollectionArn'),
+                ],
                 [
                     'collection_arn' => $collectionResponse->get('CollectionArn'),
                     'collection_id'  => $this->collection,
@@ -112,7 +115,7 @@ class StoreEntityFaceImage implements ShouldQueue
             /** @var array $item */
             $item = $response->get('FaceRecords')[0];
 
-            FaceMatchEntity::createOrUpdate(
+            FaceMatchEntity::updateOrCreate(
                 [
                     'collection_id' => $this->collection,
                     'entity_ref'    => $this->subjectId,
@@ -120,6 +123,7 @@ class StoreEntityFaceImage implements ShouldQueue
                 [
                     'collection_id' => $collection->id,
                     'face_id'       => $item['Face']['FaceId'],
+                    'image_id'      => $item['Face']['ImageId'],
                     'entity_ref'    => $this->subjectId,
                 ]
             );

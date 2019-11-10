@@ -40,7 +40,7 @@ final class AwsFaceMatchCollectionService extends AwsFaceMatchService
         /** @var Result $collections */
         $collections = $this->client->listCollections();
 
-        return in_array($collection, $collections->toArray()['CollectionIds']);
+        return in_array($collection, $collections->get('CollectionIds'));
     }
 
     public function purgeCollections()
