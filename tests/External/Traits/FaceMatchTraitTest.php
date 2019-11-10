@@ -22,6 +22,38 @@ class FaceMatchTraitTest extends TestCase
     /**
      * @test
      */
+    public function entity_can_be_created()
+    {
+        // Given
+        /** @var string $uuid */
+        $uuid = $this->faker->uuid;
+
+        /** @var string $file1 */
+        $file1 = __DIR__.'/../../assets/image1a.jpg';
+
+        /** @var string $file2 */
+        $file2 = __DIR__.'/../../assets/image1b.jpg';
+
+        Entity::purgeCollection();
+
+        // When
+        /** @var Entity $model */
+        $model = Entity::create([
+            'uuid'      => $uuid,
+            'name'      => $this->faker->name,
+            'media_url' => $file1,
+        ]);
+
+        // Then
+        $this->assertCount(1, Collection::get());
+        $this->assertCount(1, FaceMatchEntity::get());
+
+        Entity::purgeCollection();
+    }
+
+    /**
+     * @test
+     */
     public function entity_id_is_returned_when_requesting_a_match()
     {
         // Given
@@ -129,6 +161,42 @@ class FaceMatchTraitTest extends TestCase
     /**
      * @test
      */
+    public function entity_can_be_forgotten()
+    {
+        // Given
+        /** @var string $uuid */
+        $uuid = $this->faker->uuid;
+
+        /** @var string $file */
+        $file = __DIR__.'/../../assets/image1a.jpg';
+
+        Entity::purgeCollection();
+
+        /** @var Entity $model */
+        $model = Entity::create([
+            'uuid'      => $uuid,
+            'name'      => $this->faker->name,
+            'media_url' => $file,
+        ]);
+
+        /** @var FaceMatchEntity $face */
+        $face = FaceMatchEntity::get()->first();
+
+        // When
+        $response = Entity::faceForget($model);
+
+        // Then
+        $this->assertTrue(in_array($face->face_id, $response));
+
+        $this->assertCount(1, Collection::get());
+        $this->assertCount(1, FaceMatchEntity::get());
+
+        Entity::purgeCollection();
+    }
+
+    /**
+     * @test
+     */
     public function entity_can_be_removed()
     {
         // Given
@@ -140,7 +208,8 @@ class FaceMatchTraitTest extends TestCase
 
         Entity::purgeCollection();
 
-        Entity::create([
+        /** @var Entity $model */
+        $model = Entity::create([
             'uuid'      => $uuid,
             'name'      => $this->faker->name,
             'media_url' => $file,
@@ -150,13 +219,11 @@ class FaceMatchTraitTest extends TestCase
         $face = FaceMatchEntity::get()->first();
 
         // When
-        $response = Entity::facesForget([$face->face_id]);
+        $model->delete();
 
         // Then
-        $this->assertTrue(in_array($face->face_id, $response));
-
         $this->assertCount(1, Collection::get());
-        $this->assertCount(1, FaceMatchEntity::get());
+        $this->assertCount(0, FaceMatchEntity::get());
 
         Entity::purgeCollection();
     }

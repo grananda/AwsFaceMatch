@@ -12,6 +12,7 @@ use Grananda\AwsFaceMatch\Tests\Models\BinEntity;
 use Grananda\AwsFaceMatch\Tests\Models\OtherEntity;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
 use Grananda\AwsFaceMatch\Jobs\RemoveEntityFaceImage;
+use Grananda\AwsFaceMatch\Services\AwsFaceMatchService;
 use Grananda\AwsFaceMatch\Services\AwsFaceMatchFaceService;
 use Grananda\AwsFaceMatch\Services\AwsRekognitionClientFactory;
 
@@ -377,19 +378,32 @@ class FaceMatchTraitTest extends TestCase
     public function a_record_is_forgotten()
     {
         // Given
-        Bus::fake(StoreEntityFaceImage::class);
-
         /** @var Result $resultDelete */
         $resultDelete = new Result($this->loadResponse('face_delete_success'));
+
+        /** @var Result $resultCreate */
+        $resultDetect = new Result($this->loadResponse('face_detect_success'));
+
+        /** @var Result $resultList */
+        $resultIndex = new Result($this->loadResponse('image_index_success'));
+
+        /** @var Result $resultList */
+        $resultList = new Result($this->loadResponse('collection_list_success'));
+
+        /** @var Result $resultCreate */
+        $resultCreate = new Result($this->loadResponse('collection_create_success'));
 
         /** @var string $faceId */
         $faceId = $resultDelete->get('DeletedFaces')[0];
 
+        /** @var string $file */
+        $file = __DIR__.'/../../assets/image1a.jpg';
+
         /** @var Entity $model */
-        $model = Entity::create([
+        $model = Entity::make([
             'uuid'      => $this->faker->uuid,
             'name'      => $this->faker->name,
-            'media_url' => __DIR__.'/../../assets/image1a.jpg',
+            'media_url' => $file,
         ]);
 
         /** @var string $collectionName */
@@ -399,9 +413,52 @@ class FaceMatchTraitTest extends TestCase
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
             function ($mock) use (
                 $faceId,
+                $file,
+                $model,
                 $collectionName,
-                $resultDelete
+                $resultDelete,
+                $resultDetect,
+                $resultIndex,
+                $resultList,
+                $resultCreate
             ) {
+                $mock->shouldReceive('createCollection')
+                    ->with(['CollectionId' => $collectionName])
+                    ->andReturn($resultCreate)
+                ;
+
+                $mock->shouldReceive('listCollections')
+                    ->andReturn($resultList)
+                ;
+
+                $mock->shouldReceive('detectFaces')
+                    ->with(
+                        [
+                            'Attributes' => AwsFaceMatchService::IMAGE_INDEXING_RESPONSE_ATTRIBUTE,
+                            'Image'      => [
+                                'Bytes' => file_get_contents($file),
+                            ],
+                        ]
+                    )
+                    ->andReturn($resultDetect)
+                ;
+
+                $mock->shouldReceive('indexFaces')
+                    ->with(
+                        [
+                            'CollectionId'        => $collectionName,
+                            'DetectionAttributes' => AwsFaceMatchService::IMAGE_INDEXING_RESPONSE_ATTRIBUTE,
+                            'ExternalImageId'     => $model->uuid,
+                            'Image'               => [
+                                'Bytes' => file_get_contents($file),
+                            ],
+                            'MaxFaces'      => AwsFaceMatchService::MAXIMUM_FACES_TO_PROCESS,
+                            'QualityFilter' => AwsFaceMatchService::IMAGE_FILTER_PROCESSING_LEVEL,
+                        ]
+                    )
+                    ->andReturn($resultIndex)
+                ;
+
                 $mock->shouldReceive('deleteFaces')
                     ->with(
                         [
@@ -422,14 +479,12 @@ class FaceMatchTraitTest extends TestCase
             ;
         });
 
+        $model->save();
+
         // When
-        $response = Entity::facesForget([
-            $faceId,
-        ]);
+        $response = Entity::faceForget($model);
 
         // Then
-        Bus::assertDispatched(StoreEntityFaceImage::class, 1);
-
         $this->assertTrue(in_array($faceId, $response));
     }
 }

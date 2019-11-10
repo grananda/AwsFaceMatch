@@ -24,7 +24,7 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
     /**
      * @test
      *
-     * runInSeparateProcess
+     * @runInSeparateProcess
      * @preserveGlobalState disabled
      *
      * @throws Exception
