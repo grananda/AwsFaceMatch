@@ -3,7 +3,6 @@
 namespace Grananda\AwsFaceMatch\Tests\Unit\Commands;
 
 use Mockery;
-use Aws\Result;
 use Illuminate\Support\Facades\Bus;
 use Aws\Rekognition\RekognitionClient;
 use Grananda\AwsFaceMatch\Tests\TestCase;
@@ -59,41 +58,8 @@ class FaceMatchModelIndexTest extends TestCase
             'media_url' => file_get_contents(__DIR__.'/../../assets/image1a.jpg'),
         ]);
 
-        /** @var Result $resultList */
-        $resultList = new Result($this->loadResponse('collection_list_success'));
-
-        /** @var Result $resultCreate */
-        $resultCreate = new Result($this->loadResponse('collection_create_success'));
-
-        /** @var Result $resultCreate */
-        $resultDetect = new Result($this->loadResponse('face_detect_success'));
-
-        /** @var Result $resultList */
-        $resultIndex = new Result($this->loadResponse('image_index_success'));
-
         /** @var Mockery $rekognitionClientMock */
-        $rekognitionClientMock = $this->mock(RekognitionClient::class,
-            function ($mock) use ($resultCreate, $resultList, $resultDetect, $resultIndex) {
-                $mock->shouldReceive('createCollection')
-                    ->andReturn($resultCreate)
-                    ->times(3)
-                ;
-
-                $mock->shouldReceive('listCollections')
-                    ->andReturn($resultList)
-                    ->times(3)
-                ;
-
-                $mock->shouldReceive('detectFaces')
-                    ->andReturn($resultDetect)
-                    ->times(4)
-                ;
-
-                $mock->shouldReceive('indexFaces')
-                    ->andReturn($resultIndex)
-                    ->times(4)
-                ;
-            });
+        $rekognitionClientMock = $this->mock(RekognitionClient::class);
 
         $this->mock('alias:'.AwsRekognitionClientFactory::class, function ($mock) use ($rekognitionClientMock) {
             $mock->shouldReceive('instantiate')
@@ -108,6 +74,6 @@ class FaceMatchModelIndexTest extends TestCase
         $command->handle();
 
         // Then
-        $this->assertTrue(true);
+        Bus::assertDispatched(StoreEntityFaceImage::class, 8);
     }
 }

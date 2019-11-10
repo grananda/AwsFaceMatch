@@ -5,8 +5,10 @@ namespace Grananda\AwsFaceMatch\Traits;
 use Aws\Result;
 use Illuminate\Database\Eloquent\Model;
 use Grananda\AwsFaceMatch\Facades\FaceMatch;
+use Grananda\AwsFaceMatch\Models\Collection;
 use Grananda\AwsFaceMatch\Facades\FaceCollection;
 use Grananda\AwsFaceMatch\Jobs\StoreEntityFaceImage;
+use Grananda\AwsFaceMatch\Jobs\RemoveEntityFaceImage;
 
 trait FacialRecognition
 {
@@ -18,9 +20,17 @@ trait FacialRecognition
                     $model->getCollection(),
                     $model->getIdentifierValue(),
                     $model->getMediaFieldValue(),
+                    get_class($model),
                     $model->isBinary()
                 );
             }
+        });
+
+        static::deleted(function (self $model) {
+            RemoveEntityFaceImage::dispatch(
+                $model->getCollection(),
+                $model->getIdentifierValue(),
+            );
         });
     }
 
@@ -123,6 +133,39 @@ trait FacialRecognition
         $identifier = $result->get('FaceMatches')['0']['Face']['ExternalImageId'];
 
         return $entity::where($entity->getIdentifier(), $identifier)->first();
+    }
+
+    /**
+     * Removes face indx from remote collection.
+     *
+     * @param Model $model
+     *
+     * @return mixed|null
+     */
+    public static function faceForget(Model $model)
+    {
+        /** @var string $class */
+        $class = self::class;
+
+        /** @var FacialRecognition $entity */
+        $entity = new $class();
+
+        /** @var array $faceIds */
+        $faceIds = [];
+
+        if ($collection = Collection::where('collection_id', $entity->getCollection())->first()) {
+            $faceIds = $collection->faces()
+                ->where('entity_ref', $model->getIdentifierValue())
+                ->get()
+                ->pluck('face_id')
+                ->toArray()
+            ;
+        }
+
+        /** @var Result $result */
+        $result = FaceMatch::forgetFaces($entity->getCollection(), $faceIds);
+
+        return $result->get('DeletedFaces');
     }
 
     /**

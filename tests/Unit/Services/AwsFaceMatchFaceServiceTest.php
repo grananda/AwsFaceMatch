@@ -464,4 +464,57 @@ class AwsFaceMatchFaceServiceTest extends TestCase
         // Then
         $this->assertEmpty($response->get('FaceMatches'));
     }
+
+    /**
+     * @test
+     *
+     * @runInSeparateProcess
+     * @preserveGlobalState disabled
+     *
+     * @throws Exception
+     */
+    public function an_image_is_forgotten()
+    {
+        // Given
+        /** @var string $collectionName */
+        $collectionName = $this->faker->word;
+
+        /** @var Result $resultCreate */
+        $resultDelete = new Result($this->loadResponse('face_delete_success'));
+
+        /** @var string $faceId */
+        $faceId = $resultDelete->get('DeletedFaces')[0];
+
+        /** @var Mockery $rekognitionClientMock */
+        $rekognitionClientMock = $this->mock(RekognitionClient::class,
+            function ($mock) use ($collectionName, $faceId, $resultDelete) {
+                $mock->shouldReceive('deleteFaces')
+                    ->with(
+                        [
+                            'CollectionId' => $collectionName,
+                            'FaceIds'      => [
+                                $faceId,
+                            ],
+                        ]
+                    )
+                    ->andReturn($resultDelete)
+                    ->times(1)
+                ;
+            });
+
+        $this->mock('alias:'.AwsRekognitionClientFactory::class, function ($mock) use ($rekognitionClientMock) {
+            $mock->shouldReceive('instantiate')
+                ->andReturn($rekognitionClientMock)
+            ;
+        });
+
+        /** @var AwsFaceMatchFaceService $service */
+        $service = resolve(AwsFaceMatchFaceService::class);
+
+        // When
+        $response = $service->forgetFaces($collectionName, [$faceId]);
+
+        // Then
+        $this->assertEquals($faceId, $response->get('DeletedFaces')[0]);
+    }
 }
