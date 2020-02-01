@@ -20,7 +20,7 @@ class FaceMatchServiceProvider extends ServiceProvider
     {
         $this->setUpConfig();
 
-        $this->loadMigrationsFrom(__DIR__.'/Migrations');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
     }
 
     /**
@@ -41,7 +41,7 @@ class FaceMatchServiceProvider extends ServiceProvider
 
     protected function setUpConfig()
     {
-        $source = dirname(__DIR__).'/resources/config/facematch.php';
+        $source = dirname(__DIR__).'/config/facematch.php';
 
         if ($this->app instanceof LaravelApplication) {
             $this->publishes([$source => config_path('facematch.php')], 'config');
