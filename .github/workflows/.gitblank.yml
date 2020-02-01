@@ -13,9 +13,6 @@ jobs:
       - name: Install composer dependencies
         run: composer install --prefer-dist
 
-      - name: PHPInsights
-        run: composer phpinsights
-
       - name: PHP-CS-Fixer
         run: composer cs:check
 
