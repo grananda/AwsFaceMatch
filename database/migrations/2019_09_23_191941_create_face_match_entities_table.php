@@ -16,7 +16,7 @@ class CreateFaceMatchEntitiesTable extends Migration
         Schema::create('face_match_entities', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->uuid('uuid')->nullable();
-            $table->string('collection_id')->nullable(false);
+            $table->uuid('collection_id')->nullable(false);
             $table->string('face_id')->nullable(false);
             $table->string('entity_ref')->nullable(false);
             $table->string('image_id')->nullable(false);
