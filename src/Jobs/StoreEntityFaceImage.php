@@ -124,7 +124,7 @@ class StoreEntityFaceImage implements ShouldQueue
      *
      * @return Collection|null
      */
-    private function findOrCreateCollection(Result $collectionResponse)
+    private function findOrCreateCollection($collectionResponse)
     {
         $collection = null;
 
