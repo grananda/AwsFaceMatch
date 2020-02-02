@@ -1,5 +1,5 @@
 {
-    "name": "grananda/AwsFaceMatch",
+    "name": "grananda/awsfacematch",
     "description": "AWS face match package for Laravel",
     "keywords": [
         "php",
