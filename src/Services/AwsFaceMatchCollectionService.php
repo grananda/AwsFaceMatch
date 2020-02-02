@@ -13,7 +13,7 @@ final class AwsFaceMatchCollectionService extends AwsFaceMatchService
      *
      * @param string $collection
      *
-     * @return \Aws\Result|bool
+     * @return Result
      */
     public function initializeCollection(string $collection)
     {
@@ -25,7 +25,7 @@ final class AwsFaceMatchCollectionService extends AwsFaceMatchService
             );
         }
 
-        return false;
+        return $this->describeCollection($collection);
     }
 
     /**
