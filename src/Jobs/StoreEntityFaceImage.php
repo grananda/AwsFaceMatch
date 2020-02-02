@@ -93,20 +93,7 @@ class StoreEntityFaceImage implements ShouldQueue
         /** @var bool|Result $collection */
         $collectionResponse = $awsFaceMatchCollectionService->initializeCollection($this->collection);
 
-        if ($collectionResponse === false) {
-            $collection = Collection::where('collection_id', $this->collection)->firstOrFail();
-        } else {
-            $collection = Collection::updateOrCreate(
-                [
-                    'collection_arn' => $collectionResponse->get('CollectionArn'),
-                ],
-                [
-                    'collection_arn' => $collectionResponse->get('CollectionArn'),
-                    'collection_id'  => $this->collection,
-                    'entity'         => $this->entity,
-                ]
-            );
-        }
+        $collection = $this->findOrCreateCollection($collectionResponse);
 
         /** @var false|Result $response */
         $response = $awsFaceMatchFaceService->indexFace($this->collection, $this->subjectId, $this->file, $this->binary);
@@ -128,5 +115,36 @@ class StoreEntityFaceImage implements ShouldQueue
                 ]
             );
         }
+    }
+
+    /**
+     * Retrieves or create a Face Rekognition collection in local database.
+     *
+     * @param Result $collectionResponse
+     *
+     * @return Collection|null
+     */
+    private function findOrCreateCollection(Result $collectionResponse)
+    {
+        $collection = null;
+
+        if (! $collectionResponse) {
+            $collection = Collection::where('collection_id', $this->collection)->first();
+        }
+
+        if (! $collectionResponse || ! $collection) {
+            $collection = Collection::updateOrCreate(
+                [
+                    'collection_arn' => $collectionResponse->get('CollectionArn'),
+                ],
+                [
+                    'collection_arn' => $collectionResponse->get('CollectionArn'),
+                    'collection_id'  => $this->collection,
+                    'entity'         => $this->entity,
+                ]
+            );
+        }
+
+        return $collection;
     }
 }
