@@ -104,7 +104,7 @@ class StoreEntityFaceImage implements ShouldQueue
 
             FaceMatchEntity::updateOrCreate(
                 [
-                    'collection_id' => $this->collection,
+                    'collection_id' => $collection->id,
                     'entity_ref'    => $this->subjectId,
                 ],
                 [
