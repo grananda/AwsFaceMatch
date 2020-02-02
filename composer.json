@@ -1,5 +1,5 @@
 {
-    "name": "grananda/laravel-face-match",
+    "name": "grananda/AwsFaceMatch",
     "description": "AWS face match package for Laravel",
     "keywords": [
         "php",
@@ -8,7 +8,7 @@
         "face",
         "match"
     ],
-    "homepage": "https://github.com/grananda/laravel-face-match",
+    "homepage": "https://github.com/grananda/AwsFaceMatch",
     "license": "MIT",
     "authors": [
         {
