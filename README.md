@@ -8,7 +8,7 @@ This component uses the  [AWS Rekogniton](https://aws.amazon.com/es/rekognition/
 ## Installation    
  To install through composer, simply execute the following command :    
 ```sh 
-composer require grananda/laravel-face-match  
+composer require grananda/AwsFaceMatch
 ```  
 Execute the following command to copy the configuration file to your application config folder:  
   
