@@ -135,10 +135,10 @@ class StoreEntityFaceImage implements ShouldQueue
         if (! $collectionResponse || ! $collection) {
             $collection = Collection::updateOrCreate(
                 [
-                    'collection_arn' => $collectionResponse->get('CollectionArn'),
+                    'collection_arn' => $collectionResponse->get('CollectionArn') ?? $collectionResponse->get('CollectionARN'),
                 ],
                 [
-                    'collection_arn' => $collectionResponse->get('CollectionArn'),
+                    'collection_arn' => $collectionResponse->get('CollectionArn') ?? $collectionResponse->get('CollectionARN'),
                     'collection_id'  => $this->collection,
                     'entity'         => $this->entity,
                 ]
