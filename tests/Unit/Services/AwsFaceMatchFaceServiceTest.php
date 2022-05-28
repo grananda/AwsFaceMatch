@@ -30,7 +30,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
      *
      * @throws Exception
      */
-    public function an_image_can_be_indexed()
+    public function anImageCanBeIndexed()
     {
         // Given
         /** @var string $collectionName */
@@ -104,7 +104,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
      *
      * @throws Exception
      */
-    public function an_binary_image_can_be_indexed()
+    public function anBinaryImageCanBeIndexed()
     {
         // Given
         /** @var string $collectionName */
@@ -178,7 +178,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
      *
      * @throws Exception
      */
-    public function an_remote_image_can_be_indexed()
+    public function anRemoteImageCanBeIndexed()
     {
         // Given
         /** @var string $collectionName */
@@ -250,7 +250,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function an_image_with_multiple_faces_cannot_be_indexed()
+    public function anImageWithMultipleFacesCannotBeIndexed()
     {
         // Given
         /** @var string $collectionName */
@@ -270,7 +270,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
         /** @var Mockery $rekognitionClientMock */
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
-            function ($mock) use ($collectionName, $subjectId, $file, $resultDetect, $resultIndex) {
+            function ($mock) use ($file, $resultDetect) {
                 $mock->shouldReceive('detectFaces')
                     ->with(
                         [
@@ -306,7 +306,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function an_image_with_no_face_cannot_be_indexed()
+    public function anImageWithNoFaceCannotBeIndexed()
     {
         // Given
         /** @var string $collectionName */
@@ -326,7 +326,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
 
         /** @var Mockery $rekognitionClientMock */
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
-            function ($mock) use ($collectionName, $subjectId, $file, $resultDetect, $resultIndex) {
+            function ($mock) use ($file, $resultDetect) {
                 $mock->shouldReceive('detectFaces')
                     ->with(
                         [
@@ -362,7 +362,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function a_matching_image_is_recognized()
+    public function aMatchingImageIsRecognized()
     {
         // Given
         /** @var string $collectionName */
@@ -418,7 +418,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function an_non_matching_image_is_not_recognized()
+    public function anNonMatchingImageIsNotRecognized()
     {
         // Given
         /** @var string $collectionName */
@@ -473,7 +473,7 @@ class AwsFaceMatchFaceServiceTest extends TestCase
      *
      * @throws Exception
      */
-    public function an_image_is_forgotten()
+    public function anImageIsForgotten()
     {
         // Given
         /** @var string $collectionName */

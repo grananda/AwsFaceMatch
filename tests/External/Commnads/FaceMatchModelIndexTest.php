@@ -24,7 +24,7 @@ class FaceMatchModelIndexTest extends TestCase
     /**
      * @test
      */
-    public function all_records_from_different_models_are_indexed()
+    public function allRecordsFromDifferentModelsAreIndexed()
     {
         // Given
         /** @var string $modelUuid1 */

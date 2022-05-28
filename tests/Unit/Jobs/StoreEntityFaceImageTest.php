@@ -28,7 +28,7 @@ class StoreEntityFaceImageTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function model_image_is_indexed_in_collection()
+    public function modelImageIsIndexedInCollection()
     {
         // Given
         /** @var Entity $model */
@@ -149,7 +149,7 @@ class StoreEntityFaceImageTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function binary_model_image_is_indexed_in_collection()
+    public function binaryModelImageIsIndexedInCollection()
     {
         // Given
         /** @var Entity $model */

@@ -29,7 +29,7 @@ class FaceMatchModelIndexTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function all_records_from_different_models_are_indexed()
+    public function allRecordsFromDifferentModelsAreIndexed()
     {
         // Given
         Bus::fake(StoreEntityFaceImage::class);
