@@ -29,7 +29,7 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
      *
      * @throws Exception
      */
-    public function a_collection_can_be_created()
+    public function aCollectionCanBeCreated()
     {
         // Given
         /** @var Result $resultList */
@@ -77,7 +77,7 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function can_remove_all_collections()
+    public function canRemoveAllCollections()
     {
         // Given
         /** @var Result $resultList */
@@ -122,7 +122,7 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function cannot_remove_empty_collection_list()
+    public function cannotRemoveEmptyCollectionList()
     {
         // Given
         /** @var Result $resultList */
@@ -167,7 +167,7 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function can_remove_a_single_collection()
+    public function canRemoveASingleCollection()
     {
         // Given
         $collectionName = $this->faker->word;
@@ -213,7 +213,7 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
      *
      * @throws Exception
      */
-    public function can_describe_a_collection()
+    public function canDescribeACollection()
     {
         // Given
         $collectionName = $this->faker->word;
@@ -259,7 +259,7 @@ class AwsFaceMatchCollectionServiceTest extends TestCase
      *
      * @throws Exception
      */
-    public function cannot_describe_an_empty_collection()
+    public function cannotDescribeAnEmptyCollection()
     {
         // Given
         $collectionName = $this->faker->word;

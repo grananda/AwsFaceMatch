@@ -19,7 +19,7 @@ class RemoveEntityFaceImageTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function model_image_is_forgotten_in_collection()
+    public function modelImageIsForgottenInCollection()
     {
         // Given
         /** @var Entity $model */

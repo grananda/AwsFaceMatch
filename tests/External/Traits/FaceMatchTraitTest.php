@@ -22,7 +22,7 @@ class FaceMatchTraitTest extends TestCase
     /**
      * @test
      */
-    public function entity_can_be_created()
+    public function entityCanBeCreated()
     {
         // Given
         /** @var string $uuid */
@@ -54,7 +54,7 @@ class FaceMatchTraitTest extends TestCase
     /**
      * @test
      */
-    public function entity_id_is_returned_when_requesting_a_match()
+    public function entityIdIsReturnedWhenRequestingAMatch()
     {
         // Given
         /** @var string $uuid */
@@ -90,7 +90,7 @@ class FaceMatchTraitTest extends TestCase
     /**
      * @test
      */
-    public function entity_id_is_returned_when_requesting_a_bin_match()
+    public function entityIdIsReturnedWhenRequestingABinMatch()
     {
         // Given
         /** @var string $uuid */
@@ -126,7 +126,7 @@ class FaceMatchTraitTest extends TestCase
     /**
      * @test
      */
-    public function false_is_returned_when_requesting_a_no_match()
+    public function falseIsReturnedWhenRequestingANoMatch()
     {
         // Given
         /** @var string $uuid */
@@ -161,7 +161,7 @@ class FaceMatchTraitTest extends TestCase
     /**
      * @test
      */
-    public function entity_can_be_forgotten()
+    public function entityCanBeForgotten()
     {
         // Given
         /** @var string $uuid */
@@ -197,7 +197,7 @@ class FaceMatchTraitTest extends TestCase
     /**
      * @test
      */
-    public function entity_can_be_removed()
+    public function entityCanBeRemoved()
     {
         // Given
         /** @var string $uuid */

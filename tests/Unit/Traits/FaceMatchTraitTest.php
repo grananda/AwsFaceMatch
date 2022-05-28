@@ -32,7 +32,7 @@ class FaceMatchTraitTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function job_is_dispatched_on_model_saved()
+    public function jobIsDispatchedOnModelSaved()
     {
         // Given
         Bus::fake(StoreEntityFaceImage::class);
@@ -57,7 +57,7 @@ class FaceMatchTraitTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function job_is_dispatched_on_binary_model_saved()
+    public function jobIsDispatchedOnBinaryModelSaved()
     {
         // Given
         Bus::fake(StoreEntityFaceImage::class);
@@ -82,7 +82,7 @@ class FaceMatchTraitTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function job_is_not_dispatched_on_model_saved_without_image_change()
+    public function jobIsNotDispatchedOnModelSavedWithoutImageChange()
     {
         // Given
         Bus::fake(StoreEntityFaceImage::class);
@@ -108,7 +108,7 @@ class FaceMatchTraitTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function job_is_not_dispatched_on_model_when_image_is_missing()
+    public function jobIsNotDispatchedOnModelWhenImageIsMissing()
     {
         // Given
         Bus::fake(StoreEntityFaceImage::class);
@@ -132,7 +132,7 @@ class FaceMatchTraitTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function job_is_dispatched_when_record_is_removed()
+    public function jobIsDispatchedWhenRecordIsRemoved()
     {
         // Given
         Bus::fake([
@@ -161,7 +161,7 @@ class FaceMatchTraitTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function a_proper_collection_name_is_returned_when_not_defined()
+    public function aProperCollectionNameIsReturnedWhenNotDefined()
     {
         // Given
         Bus::fake(StoreEntityFaceImage::class);
@@ -182,7 +182,7 @@ class FaceMatchTraitTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function entity_id_is_returned_when_requesting_a_match()
+    public function entityIdIsReturnedWhenRequestingAMatch()
     {
         // Given
         Bus::fake(StoreEntityFaceImage::class);
@@ -206,7 +206,6 @@ class FaceMatchTraitTest extends TestCase
         /** @var Mockery $rekognitionClientMock */
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
             function ($mock) use (
-                $model,
                 $file,
                 $collectionName,
                 $resultMatch
@@ -248,7 +247,7 @@ class FaceMatchTraitTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function entity_id_is_returned_when_requesting_a_match_from_binary()
+    public function entityIdIsReturnedWhenRequestingAMatchFromBinary()
     {
         // Given
         Bus::fake(
@@ -276,7 +275,6 @@ class FaceMatchTraitTest extends TestCase
         /** @var Mockery $rekognitionClientMock */
         $rekognitionClientMock = $this->mock(RekognitionClient::class,
             function ($mock) use (
-                $model,
                 $file,
                 $collectionName,
                 $resultMatch
@@ -318,7 +316,7 @@ class FaceMatchTraitTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function a_collection_is_removed()
+    public function aCollectionIsRemoved()
     {
         // Given
         Bus::fake(StoreEntityFaceImage::class);
@@ -375,7 +373,7 @@ class FaceMatchTraitTest extends TestCase
      * @runInSeparateProcess
      * @preserveGlobalState disabled
      */
-    public function a_record_is_forgotten()
+    public function aRecordIsForgotten()
     {
         // Given
         /** @var Result $resultDelete */
